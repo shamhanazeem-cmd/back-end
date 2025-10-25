@@ -1,14 +1,11 @@
 package com.edu.Institiute.service.impl;
 
-import com.edu.Institiute.dto.responseDto.CourseResponseDto;
 import com.edu.Institiute.dto.responseDto.StatusResponseDto;
-import com.edu.Institiute.dto.responseDto.paginated.PaginatedResponseCourseDto;
 import com.edu.Institiute.dto.responseDto.paginated.PaginatedResponseStatusDto;
-import com.edu.Institiute.entity.Course;
 import com.edu.Institiute.entity.Status;
 import com.edu.Institiute.exception.EntryNotFoundException;
 import com.edu.Institiute.repo.StatusRepo;
-import com.edu.Institiute.repo.StudentHasCourseRepo;
+
 import com.edu.Institiute.service.StatusService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;

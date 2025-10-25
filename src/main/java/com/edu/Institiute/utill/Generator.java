@@ -22,6 +22,15 @@ public class Generator {
         return randomInstanceId;
     }
 
+    public static int generateFourNumNumbers(){
+        int randomId = 0;
+        for (int i = 0; i < 4; i++) {
+            int digit = (int) (Math.random() * 10);
+            randomId += digit;
+        }
+        return randomId;
+    }
+
 }
 
 

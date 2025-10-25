@@ -92,6 +92,7 @@ public class CourseRegistryImpl implements CourseService {
         }
     }
 
+
     @Override
     public PaginatedResponseCourseDto courseById(String courseCode) throws SQLException {
         try {
@@ -112,13 +113,13 @@ public class CourseRegistryImpl implements CourseService {
                     courseRepo.countAllStudentForProvidedId(courseCode),
                     courseResponseDto
             );
-        }catch (Exception e){
+        } catch (Exception e) {
             throw new EntryNotFoundException("Can't find any data for provided ID...!");
         }
     }
 
     @Override
-    public PaginatedResponseCourseDto allCourse() throws SQLException {
+      public PaginatedResponseCourseDto allCourse() throws SQLException {
         try {
             List<Course> allCourseForProvidedId = courseRepo.findAll();
             List<CourseResponseDto> courseResponseDos = new ArrayList<>();
