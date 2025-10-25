@@ -19,5 +19,7 @@ public class MedicalHistoryDto {
     private Date createdDate;
     private String modifyBy;
     private Date modifyDate;
+    private StatusDto status;
+
 }
 

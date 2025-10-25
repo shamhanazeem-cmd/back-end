@@ -6,11 +6,14 @@ import com.edu.Institiute.dto.responseDto.CommonResponseDto;
 import com.edu.Institiute.dto.responseDto.MedicalHistoryResponseDto;
 import com.edu.Institiute.dto.responseDto.paginated.PaginatedResponseMedicalHistoryDto;
 import com.edu.Institiute.entity.MedicalHistory;
+import com.edu.Institiute.entity.Status;
 import com.edu.Institiute.exception.EntryNotFoundException;
 import com.edu.Institiute.repo.MedicalHistoryRepo;
+import com.edu.Institiute.repo.StatusRepo;
 import com.edu.Institiute.service.MedicalHistoryService;
 import com.edu.Institiute.utill.Generator;
 import com.edu.Institiute.utill.mapper.MedicalHistoryMapper;
+import com.edu.Institiute.utill.mapper.StatusMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -28,6 +31,13 @@ public class MedicalHistoryImpl implements MedicalHistoryService {
     @Autowired
     private Generator generator;
 
+
+    @Autowired
+    private StatusRepo statusRepo;
+
+    @Autowired
+    private StatusMapper statusMapper;
+
     @Autowired
     private MedicalHistoryRepo medicalHistoryRepo;
 
@@ -39,6 +49,7 @@ public class MedicalHistoryImpl implements MedicalHistoryService {
     public CommonResponseDto saveMedical(RequestRegistryDto dto) {
         try {
             int medicalHistoryId = generator.generateFourNumNumbers();
+            Optional<Status> status = statusRepo.findStatusById(dto.getStatus());
 
             MedicalHistoryDto medicalHistoryDto = new MedicalHistoryDto(
                     medicalHistoryId,
@@ -49,7 +60,8 @@ public class MedicalHistoryImpl implements MedicalHistoryService {
                     dto.getCreatedBy(),
                     dto.getCreatedDate(),
                     dto.getModifyBy(),
-                    dto.getModifyDate()
+                    dto.getModifyDate(),
+                    statusMapper.toStatusDto(status.get())
 
             );
             medicalHistoryRepo.save(medicalHistoryMapper.dtoToMedicalHistoryEntity(medicalHistoryDto));
@@ -109,7 +121,9 @@ public class MedicalHistoryImpl implements MedicalHistoryService {
                                 r.getCreatedBy(),
                                 r.getCreatedDate(),
                                 r.getModifyBy(),
-                                r.getModifyDate()
+                                r.getModifyDate(),
+                                statusMapper.toStatusDto(r.getStatus())
+
                         )
                 );
             }
@@ -140,7 +154,8 @@ public class MedicalHistoryImpl implements MedicalHistoryService {
                                 r.getCreatedBy(),
                                 r.getCreatedDate(),
                                 r.getModifyBy(),
-                                r.getModifyDate()
+                                r.getModifyDate(),
+                                statusMapper.toStatusDto(r.getStatus())
                         )
                 );
             }

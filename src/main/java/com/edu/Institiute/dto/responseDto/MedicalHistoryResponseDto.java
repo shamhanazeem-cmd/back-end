@@ -1,5 +1,6 @@
 package com.edu.Institiute.dto.responseDto;
 
+import com.edu.Institiute.dto.StatusDto;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -19,5 +20,7 @@ public class MedicalHistoryResponseDto {
     private Date createdDate;
     private String modifyBy;
     private Date modifyDate;
+    private StatusDto status;
+
 
 }

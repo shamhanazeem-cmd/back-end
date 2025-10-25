@@ -1,7 +1,6 @@
 package com.edu.Institiute.dto;
 
 
-import com.edu.Institiute.entity.MedicalHistory;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;

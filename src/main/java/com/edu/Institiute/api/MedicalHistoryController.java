@@ -12,7 +12,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.sql.SQLException;
 
-
+@CrossOrigin(origins = "http://localhost:4200/")
 @RestController
 @RequestMapping("/api/v1/medicalhistory")
 public class MedicalHistoryController {
