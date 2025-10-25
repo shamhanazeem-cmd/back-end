@@ -17,4 +17,6 @@ public interface TeacherService {
     PaginatedResponseTeacherDto teacherById(String teacherId) throws SQLException;
 
     PaginatedResponseTeacherDto allTeachers() throws SQLException;
+
+    PaginatedResponseTeacherDto allPagedTeachers(int page, int size) throws SQLException;
 }
