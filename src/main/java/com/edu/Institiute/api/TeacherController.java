@@ -75,27 +75,13 @@ public class TeacherController {
     }
 
     @CrossOrigin(origins = "http://localhost:4200/")
-    @GetMapping("/all")
+    @GetMapping
     public ResponseEntity<StandardResponse> getAllTeacher()throws SQLException{
         return new ResponseEntity<>(
                 new StandardResponse(
                         200,
                         "Teacher List",
                         teacherService.allTeachers()),
-                HttpStatus.OK
-        );
-    }
-
-    @CrossOrigin(origins = "http://localhost:4200/")
-    @GetMapping
-    public ResponseEntity<StandardResponse> getAllPagedTeachers(
-            @RequestParam(defaultValue = "0") int page,
-            @RequestParam(defaultValue = "10") int size) throws SQLException {
-        return new ResponseEntity<>(
-                new StandardResponse(
-                        200,
-                        "Teacher List",
-                        teacherService.allPagedTeachers(page, size)),
                 HttpStatus.OK
         );
     }

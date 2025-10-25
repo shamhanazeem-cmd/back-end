@@ -21,15 +21,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Pageable;
-
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
-import java.util.stream.Collectors;
 
 @Service
 @Transactional
@@ -163,38 +158,6 @@ public class TeacherRegistryImpl implements TeacherService {
                     teacherResponseDto
             );
         }catch (Exception e){
-            throw new EntryNotFoundException("Can't find any data...!");
-        }
-    }
-
-    @Override
-    public PaginatedResponseTeacherDto allPagedTeachers(int page, int size) throws SQLException {
-        try {
-            Pageable pageable = PageRequest.of(page, size);
-            Page<Teacher> teacherPage = teacherRepo.findAll(pageable);
-
-            List<TeacherResponseDto> teacherResponseDto = teacherPage.getContent()
-                    .stream()
-                    .map(teacher -> new TeacherResponseDto(
-                            teacher.getId(),
-                            teacher.getTeacherCode(),
-                            teacher.getTeacherName(),
-                            courseMapper.toCourseDto(teacher.getCourse()),
-                            qualificationMapper.toQualificationDto(teacher.getQualification())
-                    ))
-                    .collect(Collectors.toList());
-
-            return new PaginatedResponseTeacherDto(
-                    teacherPage.getNumberOfElements(),
-                    teacherResponseDto,
-                    teacherPage.getTotalPages(),
-                    teacherPage.getTotalElements(),
-                    teacherPage.getNumber(),
-                    teacherPage.getSize(),
-                    teacherPage.hasNext(),
-                    teacherPage.hasPrevious()
-            );
-        } catch (Exception e) {
             throw new EntryNotFoundException("Can't find any data...!");
         }
     }
