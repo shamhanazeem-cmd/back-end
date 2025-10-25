@@ -14,7 +14,7 @@ public interface StudentService {
 
     CommonResponseDto removeStudent(String studentId);
 
-    PaginatedResponseStudentDto studentById(String studentCode) throws SQLException;
+    PaginatedResponseStudentDto studentById(String student_code) throws SQLException;
 
     PaginatedResponseStudentDto allStudent() throws SQLException;
 
