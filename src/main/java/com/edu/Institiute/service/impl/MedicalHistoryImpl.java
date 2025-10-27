@@ -4,9 +4,11 @@ import com.edu.Institiute.dto.MedicalHistoryDto;
 import com.edu.Institiute.dto.requestDto.RequestRegistryDto;
 import com.edu.Institiute.dto.responseDto.CommonResponseDto;
 import com.edu.Institiute.dto.responseDto.MedicalHistoryResponseDto;
+
 import com.edu.Institiute.dto.responseDto.paginated.PaginatedResponseMedicalHistoryDto;
 import com.edu.Institiute.entity.MedicalHistory;
 import com.edu.Institiute.entity.Status;
+
 import com.edu.Institiute.exception.EntryNotFoundException;
 import com.edu.Institiute.repo.MedicalHistoryRepo;
 import com.edu.Institiute.repo.StatusRepo;
@@ -17,6 +19,10 @@ import com.edu.Institiute.utill.mapper.StatusMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import java.util.stream.Collectors;
 
 import java.sql.SQLException;
 import java.util.ArrayList;
@@ -167,5 +173,43 @@ public class MedicalHistoryImpl implements MedicalHistoryService {
             throw new EntryNotFoundException("Can't find any data...!");
         }
 
+    }
+
+    @Override
+    public PaginatedResponseMedicalHistoryDto getAllPagedMedical(int page, int size) throws SQLException {
+        try {
+            Pageable pageable = PageRequest.of(page, size);
+            Page<MedicalHistory> medicalHistoryPage = medicalHistoryRepo.findAll(pageable);
+
+            List<MedicalHistoryResponseDto> medicalHistoryResponseDto = medicalHistoryPage.getContent()
+                    .stream()
+                    .map(medicalHistory -> new MedicalHistoryResponseDto(
+                            medicalHistory.getId(),
+                            medicalHistory.getAllergies(),
+                            medicalHistory.getPastSurgeries(),
+                            medicalHistory.getChronicConditions(),
+                            medicalHistory.getMedicalHistory(),
+                            medicalHistory.getCreatedBy(),
+                            medicalHistory.getCreatedDate(),
+                            medicalHistory.getModifyBy(),
+                            medicalHistory.getModifyDate(),
+                            statusMapper.toStatusDto(medicalHistory.getStatus()
+                      )
+                    ))
+                    .collect(Collectors.toList());
+
+            return new PaginatedResponseMedicalHistoryDto(
+                    medicalHistoryPage.getNumberOfElements(),
+                    medicalHistoryResponseDto,
+                    medicalHistoryPage.getTotalPages(),
+                    medicalHistoryPage.getTotalElements(),
+                    medicalHistoryPage.getNumber(),
+                    medicalHistoryPage.getSize(),
+                    medicalHistoryPage.hasNext(),
+                    medicalHistoryPage.hasPrevious()
+            );
+        } catch (Exception e) {
+            throw new EntryNotFoundException("Can't find any data...!");
+        }
     }
 }
