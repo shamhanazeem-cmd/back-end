@@ -20,4 +20,8 @@ public interface MedicalHistoryService {
     PaginatedResponseMedicalHistoryDto medicalHistoryById(String medicalHistoryId) throws SQLException;
 
     PaginatedResponseMedicalHistoryDto allMedicalHistory() throws SQLException;
+
+    PaginatedResponseMedicalHistoryDto getAllPagedMedical(int page, int size) throws SQLException;
+
+
 }

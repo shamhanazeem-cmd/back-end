@@ -70,13 +70,28 @@ public class MedicalHistoryController {
         );
     }
 
-    @GetMapping
+    @GetMapping("/all")
     public ResponseEntity<StandardResponse> getAllMedical()throws SQLException{
         return new ResponseEntity<>(
                 new StandardResponse(
                         200,
                         "Medical History  List",
                         MedicalHistoryService .allMedicalHistory()),
+                HttpStatus.OK
+        );
+    }
+
+
+    @CrossOrigin(origins = "http://localhost:4200/")
+    @GetMapping
+    public ResponseEntity<StandardResponse> getAllPagedMedical(
+            @RequestParam(defaultValue = "0") int page,
+            @RequestParam(defaultValue = "10") int size) throws SQLException {
+        return new ResponseEntity<>(
+                new StandardResponse(
+                        200,
+                        "Teacher List",
+                        MedicalHistoryService.getAllPagedMedical(page, size)),
                 HttpStatus.OK
         );
     }
