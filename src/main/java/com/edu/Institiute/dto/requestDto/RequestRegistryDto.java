@@ -44,4 +44,7 @@ public class RequestRegistryDto {
     private Date modifyDate;
     private Integer patientMedicalHistory;
 
+    private String name;
+    private String description;
+
 }
