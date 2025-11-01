@@ -1,6 +1,7 @@
 package com.edu.Institiute.dto.responseDto;
 
 
+import com.edu.Institiute.dto.MedicalHistoryDto;
 import com.edu.Institiute.entity.MedicalHistory;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -20,9 +21,12 @@ public class PatientResponseDto {
     private String address;
     private String contactNo;
     private String email;
-    private MedicalHistory medicalHistory;
+    private MedicalHistoryDto medicalHistory;
     private String createdBy;
     private Date createdDate;
     private String modifyBy;
     private Date modifyDate;
+
+
+
 }

@@ -1,5 +1,6 @@
 package com.edu.Institiute.dto.responseDto;
 
+import com.edu.Institiute.dto.MedicalHistoryDto;
 import com.edu.Institiute.dto.StatusDto;
 import lombok.AllArgsConstructor;
 import lombok.Data;

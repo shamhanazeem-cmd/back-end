@@ -6,8 +6,10 @@ import com.edu.Institiute.dto.PatientDto;
 import com.edu.Institiute.dto.requestDto.RequestRegistryDto;
 import com.edu.Institiute.dto.responseDto.CommonResponseDto;
 
+import com.edu.Institiute.dto.responseDto.MedicalHistoryResponseDto;
 import com.edu.Institiute.dto.responseDto.PatientResponseDto;
 
+import com.edu.Institiute.dto.responseDto.paginated.PaginatedResponseMedicalHistoryDto;
 import com.edu.Institiute.dto.responseDto.paginated.PaginatedResponsePatientDto;
 
 import com.edu.Institiute.entity.MedicalHistory;
@@ -26,6 +28,9 @@ import com.edu.Institiute.utill.mapper.PatientMapper;
 
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -33,6 +38,7 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 @Transactional
@@ -138,7 +144,7 @@ public class PatientImpl implements PatientService {
                                 r.getAddress(),
                                 r.getContactNo(),
                                 r.getEmail(),
-                                r.getMedicalHistory(),
+                                medicalHistoryMapper.toMedicalHistoryDto(r.getMedicalHistory()),
                                 r.getCreatedBy(),
                                 r.getCreatedDate(),
                                 r.getModifyBy(),
@@ -174,7 +180,7 @@ public class PatientImpl implements PatientService {
                                 r.getAddress(),
                                 r.getContactNo(),
                                 r.getEmail(),
-                                r.getMedicalHistory(),
+                                medicalHistoryMapper.toMedicalHistoryDto(r.getMedicalHistory()),
                                 r.getCreatedBy(),
                                 r.getCreatedDate(),
                                 r.getModifyBy(),
@@ -190,6 +196,48 @@ public class PatientImpl implements PatientService {
             throw new EntryNotFoundException("Can't find any data...!");
         }
 
+    }
+
+    @Override
+    public PaginatedResponsePatientDto getAllPagedPatient(int page, int size) throws SQLException {
+        try {
+            Pageable pageable = PageRequest.of(page, size);
+            Page<Patient> patientPage = patientRepo.findAll(pageable);
+
+            List<PatientResponseDto> patientResponseDto = patientPage.getContent()
+                    .stream()
+                    .map(patient -> new PatientResponseDto(
+                            patient.getId(),
+                            patient.getFullName(),
+                            patient.getNic(),
+                            patient.getDob(),
+                            patient.getGender(),
+                            patient.getAddress(),
+                            patient.getContactNo(),
+                            patient.getEmail(),
+                            medicalHistoryMapper.toMedicalHistoryDto(patient.getMedicalHistory()),
+                            patient.getCreatedBy(),
+                            patient.getCreatedDate(),
+                            patient.getModifyBy(),
+                            patient.getModifyDate()
+
+
+                    ))
+                    .collect(Collectors.toList());
+
+            return new PaginatedResponsePatientDto(
+                    patientPage.getNumberOfElements(),
+                    patientResponseDto,
+                    patientPage.getTotalPages(),
+                    patientPage.getTotalElements(),
+                    patientPage.getNumber(),
+                    patientPage.getSize(),
+                    patientPage.hasNext(),
+                    patientPage.hasPrevious()
+            );
+        } catch (Exception e) {
+            throw new EntryNotFoundException("Can't find any data...!");
+        }
     }
 
 

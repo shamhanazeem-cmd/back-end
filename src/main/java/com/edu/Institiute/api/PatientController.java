@@ -72,13 +72,28 @@ public class PatientController {
         );
     }
 
-    @GetMapping
+    @GetMapping("/all")
     public ResponseEntity<StandardResponse> getAllPatient()throws SQLException{
         return new ResponseEntity<>(
                 new StandardResponse(
                         200,
                         " Patient  List",
                         PatientService.allPatient()),
+                HttpStatus.OK
+        );
+    }
+
+
+    @CrossOrigin(origins = "http://localhost:4200/")
+    @GetMapping
+    public ResponseEntity<StandardResponse> getAllPagedPatient(
+            @RequestParam(defaultValue = "0") int page,
+            @RequestParam(defaultValue = "10") int size) throws SQLException {
+        return new ResponseEntity<>(
+                new StandardResponse(
+                        200,
+                        "Teacher List",
+                        PatientService.getAllPagedPatient(page, size)),
                 HttpStatus.OK
         );
     }
