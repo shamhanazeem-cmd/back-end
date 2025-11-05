@@ -106,7 +106,7 @@ public class PatientImpl implements PatientService {
             allPatientForProvidedId.setEmail(dto.getEmail());
 
             patientRepo.save( allPatientForProvidedId );
-            return new CommonResponseDto(201, "MedicalHistory  Updated!",  allPatientForProvidedId.getFullName(), new ArrayList<>());
+            return new CommonResponseDto(201, "Patient  Updated!",  allPatientForProvidedId.getFullName(), new ArrayList<>());
         }catch (Exception e){
             throw new EntryNotFoundException("Can't Save because of this Error -->  " + e);
         }

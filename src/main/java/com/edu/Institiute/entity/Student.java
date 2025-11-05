@@ -17,23 +17,23 @@ import java.util.List;
 public class Student {
 
     @Id
-    @Column(name="id")
+    @Column(name = "id")
     private String id;
 
-    @Column(name="studentcode")
+    @Column(name = "studentcode")
     private String studentCode;
 
-    @Column(name="studentname")
+    @Column(name = "studentname")
     private String studentName;
 
-    @Column(name="studentage")
+    @Column(name = "studentage")
     private String studentAge;
 
-    @Column(name="studentnic")
+    @Column(name = "studentnic")
     private String studentNic;
 
     @ManyToOne
-    @JoinColumn(name="status_id", referencedColumnName = "id")
+    @JoinColumn(name = "status_id", referencedColumnName = "id")
     private Status status;
 
     @OneToMany(mappedBy = "studentId", cascade = CascadeType.ALL)

@@ -3,7 +3,7 @@ package com.edu.Institiute.api;
 
 import com.edu.Institiute.dto.requestDto.RequestRegistryDto;
 import com.edu.Institiute.dto.responseDto.CommonResponseDto;
-import com.edu.Institiute.service.MedicalHistoryService;
+import com.edu.Institiute.service.DoctorService;
 import com.edu.Institiute.utill.StandardResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -14,16 +14,17 @@ import java.sql.SQLException;
 
 @CrossOrigin(origins = "http://localhost:4200/")
 @RestController
-@RequestMapping("/api/v1/medicalhistory")
-public class MedicalHistoryController {
+@RequestMapping("/api/v1/doctor")
 
+public class DoctorController {
     @Autowired
-    private MedicalHistoryService MedicalHistoryService;
+    private DoctorService DoctorService;
 
     @CrossOrigin(origins = "http://localhost:4200/")
     @PostMapping
-    public ResponseEntity<StandardResponse> savedMedial(@RequestBody RequestRegistryDto data){
-        CommonResponseDto responseData = MedicalHistoryService.saveMedical(data);
+
+    public ResponseEntity<StandardResponse> saveDoc(@RequestBody RequestRegistryDto data){
+        CommonResponseDto responseData = DoctorService.saveDoc(data);
         return new ResponseEntity<>(
                 new StandardResponse(
                         responseData.getCode(),
@@ -34,9 +35,9 @@ public class MedicalHistoryController {
         );
     }
 
-    @PutMapping("{medicalHistoryId}")
-    public ResponseEntity<StandardResponse> updateMedical(@RequestBody RequestRegistryDto data, @PathVariable String medicalHistoryId){
-        CommonResponseDto responseData = MedicalHistoryService.updateMedical(data,medicalHistoryId);
+    @PutMapping("{doctorId}")
+    public ResponseEntity<StandardResponse> updateMedical(@RequestBody RequestRegistryDto data, @PathVariable String doctorId){
+        CommonResponseDto responseData = DoctorService.updateDoc(data,doctorId);
         return new ResponseEntity<>(
                 new StandardResponse(
                         responseData.getCode(),
@@ -47,9 +48,9 @@ public class MedicalHistoryController {
         );
     }
 
-    @DeleteMapping("{medicalHistoryId}")
-    public ResponseEntity<StandardResponse> deleteMedical(@PathVariable String medicalHistoryId){
-        CommonResponseDto responseData = MedicalHistoryService.removeMedical(medicalHistoryId);
+    @DeleteMapping("{doctorId}")
+    public ResponseEntity<StandardResponse> deleteDoc(@PathVariable String doctorId){
+        CommonResponseDto responseData = DoctorService.removeDoc(doctorId);
         return new ResponseEntity<>(
                 new StandardResponse(
                         responseData.getCode(),
@@ -60,41 +61,41 @@ public class MedicalHistoryController {
         );
     }
 
-    @GetMapping("{medicalHistoryId}")
-    public ResponseEntity<StandardResponse> getMedical(@PathVariable String medicalHistoryId)throws SQLException {
+    @GetMapping("{doctorId}")
+    public ResponseEntity<StandardResponse> getDoc(@PathVariable String doctorId)throws SQLException {
         return new ResponseEntity<>(
                 new StandardResponse(
                         200,
-                        "Course List",
-                        MedicalHistoryService .medicalHistoryById(medicalHistoryId)),
+                        "Doctor List",
+                        DoctorService .doctorById(doctorId)),
                 HttpStatus.OK
         );
     }
 
     @GetMapping("/all")
-    public ResponseEntity<StandardResponse> getAllMedical()throws SQLException{
+    public ResponseEntity<StandardResponse> getAllDoc()throws SQLException{
         return new ResponseEntity<>(
                 new StandardResponse(
                         200,
                         "Medical History  List",
-                        MedicalHistoryService .allMedicalHistory()),
+                        DoctorService .allDoctors()),
                 HttpStatus.OK
         );
     }
 
-
     @CrossOrigin(origins = "http://localhost:4200/")
     @GetMapping
-    public ResponseEntity<StandardResponse> getAllPagedMedical(
+    public ResponseEntity<StandardResponse> getAllPagedDoc(
             @RequestParam(defaultValue = "0") int page,
             @RequestParam(defaultValue = "10") int size) throws SQLException {
         return new ResponseEntity<>(
                 new StandardResponse(
                         200,
                         "Teacher List",
-                        MedicalHistoryService.getAllPagedMedical(page, size)),
+                        DoctorService.getAllPagedDoctor(page, size)),
                 HttpStatus.OK
         );
     }
+
 
 }

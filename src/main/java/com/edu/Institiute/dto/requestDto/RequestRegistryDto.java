@@ -1,5 +1,7 @@
 package com.edu.Institiute.dto.requestDto;
 
+import com.edu.Institiute.dto.SpecializationDto;
+import com.edu.Institiute.dto.StatusDto;
 import com.edu.Institiute.entity.MedicalHistory;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -10,6 +12,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import java.util.Date;
+
 
 @RequiredArgsConstructor
 @AllArgsConstructor
@@ -46,5 +49,12 @@ public class RequestRegistryDto {
 
     private String name;
     private String description;
+
+
+    private String doctorName;
+    private String contactDetails;
+    private String mail;
+    private String roomNo;
+    private SpecializationDto specializations;
 
 }

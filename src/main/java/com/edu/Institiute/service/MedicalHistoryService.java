@@ -8,9 +8,6 @@ import java.sql.SQLException;
 
 public interface MedicalHistoryService {
 
-
-
-
     CommonResponseDto saveMedical(RequestRegistryDto dto);
 
     CommonResponseDto updateMedical(RequestRegistryDto dto, String medicalHistoryId);
