@@ -5,9 +5,14 @@ import com.edu.Institiute.entity.Specialization;
 import org.mapstruct.Mapper;
 import org.springframework.stereotype.Repository;
 
+import java.util.Set;
+
 
 @Repository
 @Mapper(componentModel = "spring")
 public interface SpecializationMapper {
      Specialization dtoToSpecializationEntity(SpecializationDto specializationDto);
+
+    Set<SpecializationDto> toSpecializationDto(Specialization specialization);
+
 }
