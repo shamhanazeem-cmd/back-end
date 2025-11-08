@@ -55,6 +55,6 @@ public class RequestRegistryDto {
     private String contactDetails;
     private String mail;
     private String roomNo;
-    private SpecializationDto specializations;
+    private String specializations;
 
 }

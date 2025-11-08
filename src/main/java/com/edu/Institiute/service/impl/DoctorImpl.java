@@ -2,48 +2,33 @@ package com.edu.Institiute.service.impl;
 
 
 import com.edu.Institiute.dto.DoctorDto;
-import com.edu.Institiute.dto.MedicalHistoryDto;
 import com.edu.Institiute.dto.requestDto.RequestRegistryDto;
 import com.edu.Institiute.dto.responseDto.CommonResponseDto;
 import com.edu.Institiute.dto.responseDto.DoctorResponseDto;
-import com.edu.Institiute.dto.responseDto.MedicalHistoryResponseDto;
 
-import com.edu.Institiute.dto.responseDto.PatientResponseDto;
 import com.edu.Institiute.dto.responseDto.paginated.PaginatedResponseDoctorDto;
-import com.edu.Institiute.dto.responseDto.paginated.PaginatedResponseMedicalHistoryDto;
-import com.edu.Institiute.dto.responseDto.paginated.PaginatedResponsePatientDto;
 import com.edu.Institiute.entity.*;
 
 import com.edu.Institiute.exception.EntryNotFoundException;
 import com.edu.Institiute.repo.DoctorRepo;
-import com.edu.Institiute.repo.MedicalHistoryRepo;
 import com.edu.Institiute.repo.SpecializationRepo;
 import com.edu.Institiute.repo.StatusRepo;
 import com.edu.Institiute.service.DoctorService;
-import com.edu.Institiute.service.MedicalHistoryService;
 import com.edu.Institiute.utill.Generator;
 import com.edu.Institiute.utill.mapper.DoctorMapper;
-import com.edu.Institiute.utill.mapper.MedicalHistoryMapper;
 import com.edu.Institiute.utill.mapper.SpecializationMapper;
 import com.edu.Institiute.utill.mapper.StatusMapper;
-import org.hibernate.Session;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
-
-import java.util.stream.Collector;
 import java.util.stream.Collectors;
-
 import java.sql.SQLException;
 import java.util.ArrayList;
-
 import java.util.List;
 import java.util.Optional;
-
-import static java.util.stream.Nodes.collect;
 
 @Service
 @Transactional
@@ -78,24 +63,22 @@ public class DoctorImpl implements DoctorService {
         try {
             int doctorId = generator.generateFourNumNumbers();
             Optional<Status> status = statusRepo.findStatusById(dto.getStatus());
+
             Optional<Specialization> specialization = specializationRepo.findSpecializationById(dto.getSpecializations());
 
-
-            DoctorDto doctorDto = new DoctorDto(
-                    doctorId,
-                    dto.getDoctorName(),
-                    dto.getContactDetails(),
-                    dto.getMail(),
-                    dto.getRoomNo(),
-                    dto.getCreatedBy(),
-                    dto.getCreatedDate(),
-                    dto.getModifyBy(),
-                    dto.getModifyDate(),
-                    statusMapper.toStatusDto(status.get()),
-                    specializationMapper.toSpecializationDto(specialization.get())
-
-
-                    );
+                DoctorDto doctorDto = new DoctorDto(
+                        doctorId,
+                        dto.getDoctorName(),
+                        dto.getContactDetails(),
+                        dto.getMail(),
+                        dto.getRoomNo(),
+                        dto.getCreatedBy(),
+                        dto.getCreatedDate(),
+                        dto.getModifyBy(),
+                        dto.getModifyDate(),
+                        statusMapper.toStatusDto(status.get()),
+                        specializationMapper.toSpecializationDto(specialization.get())
+                );
 
             doctorRepo.save(doctorMapper.dtoToDoctorEntity(doctorDto));
 
@@ -216,21 +199,20 @@ public class DoctorImpl implements DoctorService {
             List<DoctorResponseDto> doctorResponseDto = doctorPage.getContent()
                     .stream()
                     .map(doctor -> new DoctorResponseDto(
-                            doctor.getId(),
-                            doctor.getDoctorName(),
-                            doctor.getContactDetails(),
-                            doctor.getMail(),
-                            doctor.getRoomNo(),
-                            doctor.getCreatedBy(),
-                            doctor.getCreatedDate(),
-                            doctor.getModifyBy(),
-                            doctor.getModifyDate(),
-                            statusMapper.toStatusDto(doctor.getStatus()),
-                            specializationMapper.toSpecializationDto(doctor.getSpecializations())
-
+                                    doctor.getId(),
+                                    doctor.getDoctorName(),
+                                    doctor.getContactDetails(),
+                                    doctor.getMail(),
+                                    doctor.getRoomNo(),
+                                    doctor.getCreatedBy(),
+                                    doctor.getCreatedDate(),
+                                    doctor.getModifyBy(),
+                                    doctor.getModifyDate(),
+                                    statusMapper.toStatusDto(doctor.getStatus()),
+                                    specializationMapper.toSpecializationDto(doctor.getSpecializations())
                             )
-                    ))
-                    .collect(Collectors.toList());
+                    )
+                    .collect(Collectors.toList()); // Fixed this line
 
             return new PaginatedResponseDoctorDto(
                     doctorPage.getNumberOfElements(),
