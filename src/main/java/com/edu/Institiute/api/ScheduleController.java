@@ -3,7 +3,7 @@ package com.edu.Institiute.api;
 
 import com.edu.Institiute.dto.requestDto.RequestRegistryDto;
 import com.edu.Institiute.dto.responseDto.CommonResponseDto;
-import com.edu.Institiute.service.MedicalHistoryService;
+import com.edu.Institiute.service.ScheduleService;
 import com.edu.Institiute.utill.StandardResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -14,16 +14,16 @@ import java.sql.SQLException;
 
 @CrossOrigin(origins = "http://localhost:4200/")
 @RestController
-@RequestMapping("/api/v1/medicalhistory")
-public class MedicalHistoryController {
+@RequestMapping("/api/v1/schedule")
+public class ScheduleController {
 
     @Autowired
-    private MedicalHistoryService MedicalHistoryService;
+    private ScheduleService ScheduleService;
 
     @CrossOrigin(origins = "http://localhost:4200/")
     @PostMapping
-    public ResponseEntity<StandardResponse> savedMedial(@RequestBody RequestRegistryDto data){
-        CommonResponseDto responseData = MedicalHistoryService.saveMedical(data);
+    public ResponseEntity<StandardResponse> saveSchedule(@RequestBody RequestRegistryDto data){
+        CommonResponseDto responseData = ScheduleService.saveSchedule(data);
         return new ResponseEntity<>(
                 new StandardResponse(
                         responseData.getCode(),
@@ -34,9 +34,9 @@ public class MedicalHistoryController {
         );
     }
 
-    @PutMapping("{medicalHistoryId}")
-    public ResponseEntity<StandardResponse> updateMedical(@RequestBody RequestRegistryDto data, @PathVariable String medicalHistoryId){
-        CommonResponseDto responseData = MedicalHistoryService.updateMedical(data,medicalHistoryId);
+    @PutMapping("{scheduleId}")
+    public ResponseEntity<StandardResponse> updateSchedule(@RequestBody RequestRegistryDto data, @PathVariable String scheduleId){
+        CommonResponseDto responseData = ScheduleService.updateSchedule(data,scheduleId);
         return new ResponseEntity<>(
                 new StandardResponse(
                         responseData.getCode(),
@@ -47,9 +47,9 @@ public class MedicalHistoryController {
         );
     }
 
-    @DeleteMapping("{medicalHistoryId}")
-    public ResponseEntity<StandardResponse> deleteMedical(@PathVariable String medicalHistoryId){
-        CommonResponseDto responseData = MedicalHistoryService.removeMedical(medicalHistoryId);
+    @DeleteMapping("{scheduleId}")
+    public ResponseEntity<StandardResponse> deleteSchedule(@PathVariable String scheduleId){
+        CommonResponseDto responseData = ScheduleService.removeSchedule(scheduleId);
         return new ResponseEntity<>(
                 new StandardResponse(
                         responseData.getCode(),
@@ -60,24 +60,25 @@ public class MedicalHistoryController {
         );
     }
 
-    @GetMapping("{medicalHistoryId}")
-    public ResponseEntity<StandardResponse> getMedical(@PathVariable String medicalHistoryId)throws SQLException {
+
+    @GetMapping("{scheduleId}")
+    public ResponseEntity<StandardResponse> getSchedule(@PathVariable String scheduleId)throws SQLException {
         return new ResponseEntity<>(
                 new StandardResponse(
                         200,
                         "Course List",
-                        MedicalHistoryService .medicalHistoryById(medicalHistoryId)),
+                        ScheduleService .scheduleById(scheduleId)),
                 HttpStatus.OK
         );
     }
 
     @GetMapping("/all")
-    public ResponseEntity<StandardResponse> getAllMedical()throws SQLException{
+    public ResponseEntity<StandardResponse> getAllSchedule()throws SQLException{
         return new ResponseEntity<>(
                 new StandardResponse(
                         200,
                         "Medical History  List",
-                        MedicalHistoryService .allMedicalHistory()),
+                        ScheduleService .allSchedule()),
                 HttpStatus.OK
         );
     }
@@ -85,16 +86,16 @@ public class MedicalHistoryController {
 
     @CrossOrigin(origins = "http://localhost:4200/")
     @GetMapping
-    public ResponseEntity<StandardResponse> getAllPagedMedical(
+    public ResponseEntity<StandardResponse> getAllPagedSchedule(
             @RequestParam(defaultValue = "0") int page,
             @RequestParam(defaultValue = "10") int size) throws SQLException {
         return new ResponseEntity<>(
                 new StandardResponse(
                         200,
-                        "Medical History List",
-                        MedicalHistoryService.getAllPagedMedical(page, size)),
+                        "Schedule List",
+                        ScheduleService.getAllPagedSchedule(page, size)),
                 HttpStatus.OK
         );
     }
-
 }
+

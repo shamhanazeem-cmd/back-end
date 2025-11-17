@@ -16,4 +16,6 @@ public interface DoctorMapper {
 
     Doctor dtoToDoctorEntity(DoctorDto doctorDto);
 
+    DoctorDto toDoctorDto(Doctor doctor);
+
 }

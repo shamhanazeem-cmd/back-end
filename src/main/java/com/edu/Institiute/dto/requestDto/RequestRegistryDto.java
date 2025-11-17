@@ -1,5 +1,6 @@
 package com.edu.Institiute.dto.requestDto;
 
+import com.edu.Institiute.dto.DoctorDto;
 import com.edu.Institiute.dto.SpecializationDto;
 import com.edu.Institiute.dto.StatusDto;
 import com.edu.Institiute.entity.MedicalHistory;
@@ -56,5 +57,13 @@ public class RequestRegistryDto {
     private String mail;
     private String roomNo;
     private String specializations;
+
+    private String dayOfWeek;
+    private String startTime;
+    private String endTime;
+    private String slotDuration;
+    private String maxPatients;
+    private String doctor;
+
 
 }
