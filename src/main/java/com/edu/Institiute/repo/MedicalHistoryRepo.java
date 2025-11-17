@@ -15,7 +15,7 @@ public interface MedicalHistoryRepo extends JpaRepository<MedicalHistory,Integer
 
 //    @Query(value = "SELECT * FROM medical_history WHERE id=mediId", nativeQuery = true)
 //    Optional<MedicalHistory> findByMediHistoryId(Integer mediId);
-    //
+
     @Query(value = "SELECT * FROM medical_history WHERE id=:medicalHistoryId", nativeQuery = true)
     MedicalHistory getAllMedicalHistoryForProvidedId(@Param("medicalHistoryId") String medicalHistoryId);
 

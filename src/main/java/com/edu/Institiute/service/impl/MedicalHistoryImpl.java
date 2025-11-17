@@ -105,7 +105,7 @@ public class MedicalHistoryImpl implements MedicalHistoryService {
             medicalHistoryRepo.delete(medicalHistory.get());
             return new CommonResponseDto(201, "MedicalHistory was deleted!", true, new ArrayList<>());
         } else {
-            throw new EntryNotFoundException("Can't find any Student...!");
+            throw new EntryNotFoundException("Can't find any MedicalHistory...!");
         }
     }
 

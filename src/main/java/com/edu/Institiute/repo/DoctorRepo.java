@@ -19,4 +19,5 @@ public interface DoctorRepo extends JpaRepository<Doctor,Integer>{
 
     @Query(value = "SELECT * FROM Doctor WHERE id=:doctorId", nativeQuery = true)
     List<Doctor> getDoctorDetailById(@Param("doctorId") String doctorId);
+
 }
