@@ -94,7 +94,7 @@ public class SpeacializationController {
         return new ResponseEntity<>(
                 new StandardResponse(
                         200,
-                        "Teacher List",
+                        "Specialization List",
                         SpecializationService.getAllPagedSpecialization(page, size)),
                 HttpStatus.OK
         );

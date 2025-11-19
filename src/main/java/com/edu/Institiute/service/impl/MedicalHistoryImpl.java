@@ -37,7 +37,6 @@ public class MedicalHistoryImpl implements MedicalHistoryService {
     @Autowired
     private Generator generator;
 
-
     @Autowired
     private StatusRepo statusRepo;
 
