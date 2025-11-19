@@ -20,6 +20,7 @@ import java.util.Date;
 @Data
 public class RequestRegistryDto {
 
+
     private String studentCode;
     private String studentName;
     private String studentAge;
@@ -64,6 +65,12 @@ public class RequestRegistryDto {
     private String slotDuration;
     private String maxPatients;
     private String doctor;
+
+    private String appointmentDate;
+    private String appointmentTime;
+    private Integer doctorAppointment;
+    private Integer patient;
+    private Integer schedule;
 
 
 }

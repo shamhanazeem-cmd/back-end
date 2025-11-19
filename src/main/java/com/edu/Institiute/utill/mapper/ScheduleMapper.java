@@ -10,4 +10,7 @@ import org.springframework.stereotype.Repository;
 @Mapper(componentModel = "spring")
 public interface ScheduleMapper {
     Schedule dtoToScheduleEntity(ScheduleDto scheduleDto);
+
+    ScheduleDto toScheduleDto(Schedule schedule);
+
 }
