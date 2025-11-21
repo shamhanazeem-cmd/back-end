@@ -72,5 +72,10 @@ public class RequestRegistryDto {
     private Integer patient;
     private Integer schedule;
 
+    private String prescriptionDate;
+    private String notes;
+    private Integer Appointment;
+
+
 
 }

@@ -10,4 +10,6 @@ import org.springframework.stereotype.Repository;
 public interface AppointmentMapper {
     Appointment dtoToAppointmentEntity(AppointmentDto appointmentDto);
 
+    AppointmentDto toAppointmentDto(Appointment appointment);
+
 }
