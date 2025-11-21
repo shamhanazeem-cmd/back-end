@@ -3,7 +3,7 @@ package com.edu.Institiute.api;
 
 import com.edu.Institiute.dto.requestDto.RequestRegistryDto;
 import com.edu.Institiute.dto.responseDto.CommonResponseDto;
-import com.edu.Institiute.service.MedicalHistoryService;
+import com.edu.Institiute.service.PrescriptionService;
 import com.edu.Institiute.utill.StandardResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -14,16 +14,18 @@ import java.sql.SQLException;
 
 @CrossOrigin(origins = "http://localhost:4200/")
 @RestController
-@RequestMapping("/api/v1/medicalhistory")
-public class MedicalHistoryController {
+@RequestMapping("/api/v1/prescription")
+
+
+public class PrescriptionController {
 
     @Autowired
-    private MedicalHistoryService MedicalHistoryService;
+    private PrescriptionService PrescriptionService;
 
     @CrossOrigin(origins = "http://localhost:4200/")
     @PostMapping
-    public ResponseEntity<StandardResponse> savedMedial(@RequestBody RequestRegistryDto data){
-        CommonResponseDto responseData = MedicalHistoryService.saveMedical(data);
+    public ResponseEntity<StandardResponse> savePrescription(@RequestBody RequestRegistryDto data){
+        CommonResponseDto responseData = PrescriptionService.savePrescription(data);
         return new ResponseEntity<>(
                 new StandardResponse(
                         responseData.getCode(),
@@ -34,9 +36,9 @@ public class MedicalHistoryController {
         );
     }
 
-    @PutMapping("{medicalHistoryId}")
-    public ResponseEntity<StandardResponse> updateMedical(@RequestBody RequestRegistryDto data, @PathVariable String medicalHistoryId){
-        CommonResponseDto responseData = MedicalHistoryService.updateMedical(data,medicalHistoryId);
+    @PutMapping("{prescriptionId}")
+    public ResponseEntity<StandardResponse> updatePrescription(@RequestBody RequestRegistryDto data, @PathVariable String prescriptionId){
+        CommonResponseDto responseData = PrescriptionService.updatePrescription(data,prescriptionId);
         return new ResponseEntity<>(
                 new StandardResponse(
                         responseData.getCode(),
@@ -47,9 +49,9 @@ public class MedicalHistoryController {
         );
     }
 
-    @DeleteMapping("{medicalHistoryId}")
-    public ResponseEntity<StandardResponse> deleteMedical(@PathVariable String medicalHistoryId){
-        CommonResponseDto responseData = MedicalHistoryService.removeMedical(medicalHistoryId);
+    @DeleteMapping("{prescriptionId}")
+    public ResponseEntity<StandardResponse> deletePrescription(@PathVariable String prescriptionId){
+        CommonResponseDto responseData = PrescriptionService.removePrescription(prescriptionId);
         return new ResponseEntity<>(
                 new StandardResponse(
                         responseData.getCode(),
@@ -60,24 +62,24 @@ public class MedicalHistoryController {
         );
     }
 
-    @GetMapping("{medicalHistoryId}")
-    public ResponseEntity<StandardResponse> getMedical(@PathVariable String medicalHistoryId)throws SQLException {
+    @GetMapping("{prescriptionId}")
+    public ResponseEntity<StandardResponse> getPrescription(@PathVariable String prescriptionId)throws SQLException {
         return new ResponseEntity<>(
                 new StandardResponse(
                         200,
-                        "Medical History List",
-                        MedicalHistoryService .medicalHistoryById(medicalHistoryId)),
+                        "Prescription List",
+                        PrescriptionService .PrescriptionById(prescriptionId)),
                 HttpStatus.OK
         );
     }
 
     @GetMapping("/all")
-    public ResponseEntity<StandardResponse> getAllMedical()throws SQLException{
+    public ResponseEntity<StandardResponse> getAllPrescription()throws SQLException{
         return new ResponseEntity<>(
                 new StandardResponse(
                         200,
-                        "Medical History  List",
-                        MedicalHistoryService .allMedicalHistory()),
+                        "Prescription  List",
+                        PrescriptionService .allPrescription()),
                 HttpStatus.OK
         );
     }
@@ -85,16 +87,18 @@ public class MedicalHistoryController {
 
     @CrossOrigin(origins = "http://localhost:4200/")
     @GetMapping
-    public ResponseEntity<StandardResponse> getAllPagedMedical(
+    public ResponseEntity<StandardResponse> getAllPagedPrescription(
             @RequestParam(defaultValue = "0") int page,
             @RequestParam(defaultValue = "10") int size) throws SQLException {
         return new ResponseEntity<>(
                 new StandardResponse(
                         200,
-                        "Medical History List",
-                        MedicalHistoryService.getAllPagedMedical(page, size)),
+                        "Prescription List",
+                        PrescriptionService.getAllPagedPrescription(page, size)),
                 HttpStatus.OK
         );
     }
 
 }
+
+

@@ -2,20 +2,17 @@ package com.edu.Institiute.service.impl;
 
 
 import com.edu.Institiute.dto.AppointmentDto;
-import com.edu.Institiute.dto.MedicalHistoryDto;
 import com.edu.Institiute.dto.requestDto.RequestRegistryDto;
 import com.edu.Institiute.dto.responseDto.AppointmentResponseDto;
 import com.edu.Institiute.dto.responseDto.CommonResponseDto;
-import com.edu.Institiute.dto.responseDto.MedicalHistoryResponseDto;
+
 
 import com.edu.Institiute.dto.responseDto.paginated.PaginatedResponseAppointmentDto;
-import com.edu.Institiute.dto.responseDto.paginated.PaginatedResponseMedicalHistoryDto;
 import com.edu.Institiute.entity.*;
 
 import com.edu.Institiute.exception.EntryNotFoundException;
 import com.edu.Institiute.repo.*;
 import com.edu.Institiute.service.AppointmentService;
-import com.edu.Institiute.service.MedicalHistoryService;
 import com.edu.Institiute.utill.Generator;
 import com.edu.Institiute.utill.mapper.*;
 import org.springframework.beans.factory.annotation.Autowired;
