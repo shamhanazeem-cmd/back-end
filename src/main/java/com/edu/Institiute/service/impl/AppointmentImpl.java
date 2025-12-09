@@ -72,7 +72,7 @@ public class AppointmentImpl implements AppointmentService {
     public CommonResponseDto saveAppointment(RequestRegistryDto dto) {
         try {
             int appointmentId = generator.generateFourNumNumbers();
-            Optional<Doctor> doctor = doctorRepo.findById(dto.getDoctorAppointment());
+            Optional<Doctor> doctor = doctorRepo.findById(dto.getDoctor());
             Optional<Patient> patient = patientRepo.findById(dto.getPatient());
             Optional<Schedule> schedule = scheduleRepo.findById(dto.getSchedule());
             Optional<Status> status = statusRepo.findStatusById(dto.getStatus());
@@ -143,7 +143,7 @@ public class AppointmentImpl implements AppointmentService {
                                 r.getCreatedDate(),
                                 r.getModifyBy(),
                                 r.getModifyDate(),
-                                doctorMapper.toDoctorDto(r.getDoctor()),
+                                doctorMapper.toDoctorDto(r.getDoctorAppointment()),
                                 patientMapper.toPatientDto(r.getPatient()),
                                 scheduleMapper.toScheduleDto(r.getSchedule()),
                                 statusMapper.toStatusDto(r.getStatus())
@@ -177,7 +177,7 @@ public class AppointmentImpl implements AppointmentService {
                                 r.getCreatedDate(),
                                 r.getModifyBy(),
                                 r.getModifyDate(),
-                                doctorMapper.toDoctorDto(r.getDoctor()),
+                                doctorMapper.toDoctorDto(r.getDoctorAppointment()),
                                 patientMapper.toPatientDto(r.getPatient()),
                                 scheduleMapper.toScheduleDto(r.getSchedule()),
                                 statusMapper.toStatusDto(r.getStatus())
@@ -210,7 +210,7 @@ public class AppointmentImpl implements AppointmentService {
                             appointment.getCreatedDate(),
                             appointment.getModifyBy(),
                             appointment.getModifyDate(),
-                            doctorMapper.toDoctorDto(appointment.getDoctor()),
+                            doctorMapper.toDoctorDto(appointment.getDoctorAppointment()),
                             patientMapper.toPatientDto(appointment.getPatient()),
                             scheduleMapper.toScheduleDto(appointment.getSchedule()),
                             statusMapper.toStatusDto(appointment.getStatus()

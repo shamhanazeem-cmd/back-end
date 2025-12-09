@@ -92,7 +92,7 @@ public class PatientController {
         return new ResponseEntity<>(
                 new StandardResponse(
                         200,
-                        "Teacher List",
+                        "Patient List",
                         PatientService.getAllPagedPatient(page, size)),
                 HttpStatus.OK
         );

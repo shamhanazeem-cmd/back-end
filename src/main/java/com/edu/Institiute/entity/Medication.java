@@ -7,27 +7,33 @@ import lombok.RequiredArgsConstructor;
 import lombok.Setter;
 import javax.persistence.*;
 import java.util.Date;
-
+import java.util.List;
 
 @Entity
 @Getter
 @Setter
 @RequiredArgsConstructor
 @AllArgsConstructor
-@Table(name = "Appointment")
+@Table(name = "Medication")
 
-public class Appointment {
+public class Medication {
 
     @Id
     @Column(name="id")
     @GeneratedValue(strategy=GenerationType.IDENTITY)
     private Integer id;
 
-    @Column(name="appointmentDate")
-    private String appointmentDate;
+    @Column(name="drugName")
+    private String drugName;
 
-    @Column(name="appointmentTime")
-    private String appointmentTime;
+    @Column(name="dosage")
+    private String dosage;
+
+    @Column(name="duration")
+    private String duration;
+
+    @Column(name="instructions")
+    private String instructions;
 
     @Column(name="createdBy ")
     private String createdBy;
@@ -41,20 +47,14 @@ public class Appointment {
     @Column(name="modifyDate")
     private Date modifyDate;
 
-    @ManyToOne
-    @JoinColumn(name="doctor_id", referencedColumnName = "id")
-    private Doctor doctorAppointment;
-
-    @ManyToOne
-    @JoinColumn(name="patient_id", referencedColumnName = "id")
-    private Patient patient;
-
-    @ManyToOne
-    @JoinColumn(name="schedule_id", referencedColumnName = "id")
-    private Schedule schedule;
 
     @ManyToOne
     @JoinColumn(name="status_id", referencedColumnName = "id")
     private Status status;
+
+    @ManyToOne
+    @JoinColumn(name="prescription_Id", referencedColumnName = "id")
+    private Prescription prescription;
+
 
 }

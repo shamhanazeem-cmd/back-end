@@ -61,7 +61,7 @@ public class ScheduleImpl implements ScheduleService {
     public CommonResponseDto saveSchedule(RequestRegistryDto dto) {
         try {
             int scheduleId = generator.generateFourNumNumbers();
-            Optional<Doctor> doctor = doctorRepo.getDoctorById(dto.getDoctor());
+            Optional<Doctor> doctor = doctorRepo.findById(dto.getDoctor());
 
             ScheduleDto scheduleDto = new ScheduleDto(
                     scheduleId,

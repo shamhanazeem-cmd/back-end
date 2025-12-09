@@ -72,7 +72,7 @@ public class PrescriptionImpl implements PrescriptionService {
     public CommonResponseDto savePrescription(RequestRegistryDto dto) {
         try {
             int prescriptionId = generator.generateFourNumNumbers();
-            Optional<Doctor> doctor = doctorRepo.findById(dto.getDoctorAppointment());
+            Optional<Doctor> doctor = doctorRepo.findById(dto.getDoctor());
             Optional<Patient> patient = patientRepo.findById(dto.getPatient());
             Optional<Appointment> appointment = appointmentRepo.findById(dto.getAppointment());
             Optional<Status> status = statusRepo.findStatusById(dto.getStatus());

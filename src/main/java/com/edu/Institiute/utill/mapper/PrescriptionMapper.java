@@ -10,4 +10,6 @@ import org.springframework.stereotype.Repository;
 @Mapper(componentModel = "spring")
 public interface PrescriptionMapper {
     Prescription dtoToPrescriptionEntity(PrescriptionDto prescriptionDto);
+
+    PrescriptionDto toPrescriptionDto(Prescription prescription);
 }
