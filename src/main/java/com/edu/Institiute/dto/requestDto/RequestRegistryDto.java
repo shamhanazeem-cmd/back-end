@@ -1,8 +1,6 @@
-package com.edu.Institiute.dto.requestDto;
+ package com.edu.Institiute.dto.requestDto;
 
-import com.edu.Institiute.dto.DoctorDto;
-import com.edu.Institiute.dto.SpecializationDto;
-import com.edu.Institiute.dto.StatusDto;
+import com.edu.Institiute.dto.*;
 import com.edu.Institiute.entity.MedicalHistory;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -64,17 +62,24 @@ public class RequestRegistryDto {
     private String endTime;
     private String slotDuration;
     private String maxPatients;
-    private String doctor;
+    private Integer doctor;
 
     private String appointmentDate;
     private String appointmentTime;
-    private Integer doctorAppointment;
     private Integer patient;
     private Integer schedule;
 
     private String prescriptionDate;
     private String notes;
     private Integer Appointment;
+
+
+    private Integer id;
+    private String drugName;
+    private String dosage;
+    private String duration;
+    private String instructions;
+    private Integer prescription;
 
 
 

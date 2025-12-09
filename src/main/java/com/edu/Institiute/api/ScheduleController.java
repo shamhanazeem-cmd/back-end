@@ -66,7 +66,7 @@ public class ScheduleController {
         return new ResponseEntity<>(
                 new StandardResponse(
                         200,
-                        "Course List",
+                        "Schedule List",
                         ScheduleService .scheduleById(scheduleId)),
                 HttpStatus.OK
         );
@@ -77,7 +77,7 @@ public class ScheduleController {
         return new ResponseEntity<>(
                 new StandardResponse(
                         200,
-                        "Medical History  List",
+                        "Schedule  List",
                         ScheduleService .allSchedule()),
                 HttpStatus.OK
         );
