@@ -69,7 +69,7 @@ public class RequestRegistryDto {
     private Integer patient;
     private Integer schedule;
 
-    private String prescriptionDate;
+    private Date prescriptionDate;
     private String notes;
     private Integer Appointment;
 
@@ -81,6 +81,9 @@ public class RequestRegistryDto {
     private String instructions;
     private Integer prescription;
 
+
+    private Date sentDate;
+    private String channel;
 
 
 }
