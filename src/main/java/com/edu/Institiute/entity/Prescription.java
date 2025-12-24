@@ -24,7 +24,7 @@ public class Prescription {
     private Integer id;
 
     @Column(name = "prescriptionDate")
-    private String prescriptionDate;
+    private Date prescriptionDate;
 
     @Column(name = "notes")
     private String notes;

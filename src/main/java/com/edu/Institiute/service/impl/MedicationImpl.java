@@ -96,8 +96,7 @@ public class MedicationImpl implements MedicationService {
             allMedicationForProvidedId.setDrugName(dto.getDrugName());
             allMedicationForProvidedId.setDosage(dto.getDosage());
             allMedicationForProvidedId.setDuration(dto.getDuration());
-            allMedicationForProvidedId.setInstructions(dto.getInstructions()
-            );
+            allMedicationForProvidedId.setInstructions(dto.getInstructions());
 
 
             medicationRepo.save( allMedicationForProvidedId);
