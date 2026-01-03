@@ -12,6 +12,7 @@ import java.util.Date;
 @NoArgsConstructor
 public class PatientDto {
     private int id;
+    private String patientSerialID;
     private String fullName;
     private String nic;
     private String dob;

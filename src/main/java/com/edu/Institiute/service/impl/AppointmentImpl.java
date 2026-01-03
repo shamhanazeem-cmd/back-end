@@ -79,6 +79,7 @@ public class AppointmentImpl implements AppointmentService {
 
             AppointmentDto appointmentDto = new AppointmentDto(
                     appointmentId,
+                    dto.getAppointmentSerialID(),
                     dto.getAppointmentDate(),
                     dto.getAppointmentTime(),
                     dto.getCreatedBy(),
@@ -104,6 +105,7 @@ public class AppointmentImpl implements AppointmentService {
         try {
 
             Appointment allAppointmentForProvidedId = appointmentRepo.getAllAppointmentForProvidedId(appointmentId);
+            allAppointmentForProvidedId.setAppointmentSerialID(dto.getAppointmentSerialID());
             allAppointmentForProvidedId.setAppointmentDate(dto.getAppointmentDate());
             allAppointmentForProvidedId.setAppointmentTime(dto.getAppointmentTime());
 
@@ -137,6 +139,7 @@ public class AppointmentImpl implements AppointmentService {
                 appointmentResponseDto.add(
                         new AppointmentResponseDto(
                                 r.getId(),
+                                r.getAppointmentSerialID(),
                                 r.getAppointmentDate(),
                                 r.getAppointmentTime(),
                                 r.getCreatedBy(),
@@ -171,6 +174,7 @@ public class AppointmentImpl implements AppointmentService {
                 appointmentResponseDto.add(
                         new AppointmentResponseDto(
                                 r.getId(),
+                                r.getAppointmentSerialID(),
                                 r.getAppointmentDate(),
                                 r.getAppointmentTime(),
                                 r.getCreatedBy(),
@@ -204,6 +208,7 @@ public class AppointmentImpl implements AppointmentService {
                     .stream()
                     .map(appointment -> new AppointmentResponseDto(
                             appointment.getId(),
+                            appointment.getAppointmentSerialID(),
                             appointment.getAppointmentDate(),
                             appointment.getAppointmentTime(),
                             appointment.getCreatedBy(),

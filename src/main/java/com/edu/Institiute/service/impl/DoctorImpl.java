@@ -68,6 +68,7 @@ public class DoctorImpl implements DoctorService {
 
                 DoctorDto doctorDto = new DoctorDto(
                         doctorId,
+                        dto.getDoctorSerialID(),
                         dto.getDoctorName(),
                         dto.getContactDetails(),
                         dto.getMail(),
@@ -94,6 +95,7 @@ public class DoctorImpl implements DoctorService {
         try {
 
             Doctor allDoctorsForProvidedId = doctorRepo.getAllDoctorsForProvidedId(doctorId);
+            allDoctorsForProvidedId.setDoctorSerialID(dto.getDoctorSerialID());
             allDoctorsForProvidedId.setDoctorName(dto.getDoctorName());
             allDoctorsForProvidedId.setContactDetails(dto.getContactDetails());
             allDoctorsForProvidedId.setMail(dto.getMail());
@@ -131,6 +133,7 @@ public class DoctorImpl implements DoctorService {
                 doctorResponseDto.add(
                         new DoctorResponseDto(
                                 r.getId(),
+                                r.getDoctorSerialID(),
                                 r.getDoctorName(),
                                 r.getContactDetails(),
                                 r.getMail(),
@@ -165,6 +168,7 @@ public class DoctorImpl implements DoctorService {
                 doctorResponseDto.add(
                         new DoctorResponseDto(
                                 r.getId(),
+                                r.getDoctorSerialID(),
                                 r.getDoctorName(),
                                 r.getContactDetails(),
                                 r.getMail(),
@@ -200,6 +204,7 @@ public class DoctorImpl implements DoctorService {
                     .stream()
                     .map(doctor -> new DoctorResponseDto(
                                     doctor.getId(),
+                                    doctor.getDoctorSerialID(),
                                     doctor.getDoctorName(),
                                     doctor.getContactDetails(),
                                     doctor.getMail(),

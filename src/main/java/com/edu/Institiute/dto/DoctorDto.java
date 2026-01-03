@@ -13,6 +13,7 @@ import java.util.Date;
 
 public class DoctorDto {
     private int id;
+    private String doctorSerialID;
     private String doctorName;
     private String contactDetails;
     private String mail;
