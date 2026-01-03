@@ -13,6 +13,7 @@ import java.util.Date;
 public class AppointmentDto {
 
     private Integer id;
+    private String appointmentSerialID;
     private String appointmentDate;
     private String appointmentTime;
     private String createdBy;

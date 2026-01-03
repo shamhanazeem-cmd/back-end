@@ -14,6 +14,7 @@ import java.util.Date;
 @NoArgsConstructor
 public class PatientResponseDto {
     private int id;
+    private String patientSerialID;
     private String fullName;
     private String nic;
     private String dob;

@@ -20,6 +20,9 @@ public class Patient {
     @Column(name="id")
     private Integer id;
 
+    @Column(name="patientSerialID")
+    private String patientSerialID;
+
     @Column(name="fullName")
     private String fullName;
 

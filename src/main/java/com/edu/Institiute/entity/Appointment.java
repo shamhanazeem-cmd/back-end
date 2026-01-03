@@ -23,6 +23,9 @@ public class Appointment {
     @GeneratedValue(strategy=GenerationType.IDENTITY)
     private Integer id;
 
+    @Column(name="appointmentSerialID")
+    private String appointmentSerialID;
+
     @Column(name="appointmentDate")
     private String appointmentDate;
 

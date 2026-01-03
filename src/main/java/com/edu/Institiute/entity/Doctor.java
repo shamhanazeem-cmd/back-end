@@ -23,6 +23,9 @@ public class Doctor {
     @GeneratedValue(strategy=GenerationType.IDENTITY)
     private Integer id;
 
+    @Column(name="doctorSerialID")
+    private String doctorSerialID;
+
     @Column(name="doctorName")
     private String doctorName;
 

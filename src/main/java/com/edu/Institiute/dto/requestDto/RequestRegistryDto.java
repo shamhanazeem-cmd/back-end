@@ -33,7 +33,7 @@ public class RequestRegistryDto {
     private String chronicConditions;
     private String medicalHistory;
 
-
+    private String patientSerialID;
     private String fullName;
     private String nic;
     private String dob;
@@ -50,7 +50,7 @@ public class RequestRegistryDto {
     private String name;
     private String description;
 
-
+    private String doctorSerialID;
     private String doctorName;
     private String contactDetails;
     private String mail;
@@ -64,6 +64,7 @@ public class RequestRegistryDto {
     private String maxPatients;
     private Integer doctor;
 
+    private String appointmentSerialID;
     private String appointmentDate;
     private String appointmentTime;
     private Integer patient;

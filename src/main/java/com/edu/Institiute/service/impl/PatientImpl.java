@@ -69,6 +69,7 @@ public class PatientImpl implements PatientService {
             int patientId =  generator.generateFourNumNumbers();
             PatientDto patientDto = new PatientDto(
                     patientId,
+                    dto.getPatientSerialID(),
                     dto.getFullName(),
                     dto.getNic(),
                     dto.getDob(),
@@ -98,6 +99,7 @@ public class PatientImpl implements PatientService {
 
 
             Patient allPatientForProvidedId = patientRepo.getAllPatientForProvidedId(patientId);
+            allPatientForProvidedId.setPatientSerialID(dto.getPatientSerialID());
             allPatientForProvidedId.setFullName(dto.getFullName());
             allPatientForProvidedId.setNic(dto.getNic());
             allPatientForProvidedId.setDob(dto.getDob());
@@ -137,6 +139,7 @@ public class PatientImpl implements PatientService {
                 patientResponseDto.add(
                         new PatientResponseDto(
                                 r.getId(),
+                                r.getPatientSerialID(),
                                 r.getFullName(),
                                 r.getNic(),
                                 r.getDob(),
@@ -173,6 +176,7 @@ public class PatientImpl implements PatientService {
                 patientResponseDto.add(
                         new PatientResponseDto(
                                 r.getId(),
+                                r.getPatientSerialID(),
                                 r.getFullName(),
                                 r.getNic(),
                                 r.getDob(),
@@ -208,6 +212,7 @@ public class PatientImpl implements PatientService {
                     .stream()
                     .map(patient -> new PatientResponseDto(
                             patient.getId(),
+                            patient.getPatientSerialID(),
                             patient.getFullName(),
                             patient.getNic(),
                             patient.getDob(),

@@ -36,12 +36,12 @@ public class WebSecurityConfiguration extends WebSecurityConfigurerAdapter{
         http.cors().and().csrf().disable()
                 .authorizeRequests()
                 .antMatchers("/api/v1/user_sign_up",
-                        "/authenticate" ,"/api/v1/student/**",
-                        "/api/v1/status/**","/api/v1/course/**","/api/v1/qualification/**",
-                        "/api/v1/student_has_course/**", "/api/v1/teacher/**",
+                        "/authenticate" ,"/api/v1/medicalhistory/**","/api/v1/prescription/**",
+                        "/api/v1/status/**","/api/v1/appointment/**","/api/v1/medication/**","/api/v1/notification/**",
+                        "/api/v1/patient/**", "/api/v1/specialization/**","/api/v1/schedule/**",
                         "/api/v1/module/**","/api/v1/privilege/**","/api/v1/role/**").permitAll()
                 .antMatchers(HttpHeaders.ALLOW).permitAll()
-               // .anyRequest().authenticated()
+                //.anyRequest().authenticated()
                 .and()
                 .exceptionHandling().authenticationEntryPoint(jwtAuthenticationEntryPoint)
                 .and()
