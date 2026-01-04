@@ -87,4 +87,15 @@ public class RequestRegistryDto {
     private String channel;
 
 
+    private String paymentSerialID;
+    private Integer hospitalCharge;
+    private Integer doctorCharge;
+    private Integer tax;
+    private Integer amount;
+    private String paymentMethod;
+    private Date paymentDate;
+
+
+
+
 }

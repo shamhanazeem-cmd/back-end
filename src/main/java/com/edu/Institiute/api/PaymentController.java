@@ -1,9 +1,11 @@
 package com.edu.Institiute.api;
 
 
+
 import com.edu.Institiute.dto.requestDto.RequestRegistryDto;
 import com.edu.Institiute.dto.responseDto.CommonResponseDto;
 import com.edu.Institiute.service.MedicationService;
+import com.edu.Institiute.service.PaymentService;
 import com.edu.Institiute.utill.StandardResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -14,19 +16,19 @@ import java.sql.SQLException;
 
 @CrossOrigin(origins = "http://localhost:4200/")
 @RestController
-@RequestMapping("/api/v1/medication")
+@RequestMapping("/api/v1/payment")
 
 
-public class MedicationController {
+public class PaymentController {
 
     @Autowired
-    private MedicationService MedicationService;
+    private PaymentService PaymentService;
 
     @CrossOrigin(origins = "http://localhost:4200/")
     @PostMapping
 
-    public ResponseEntity<StandardResponse> saveMedication(@RequestBody RequestRegistryDto data){
-        CommonResponseDto responseData = MedicationService.saveMedication(data);
+    public ResponseEntity<StandardResponse> savePayment(@RequestBody RequestRegistryDto data){
+        CommonResponseDto responseData = PaymentService.savePayment(data);
         return new ResponseEntity<>(
                 new StandardResponse(
                         responseData.getCode(),
@@ -37,9 +39,9 @@ public class MedicationController {
         );
     }
 
-    @PutMapping("{medicationId}")
-    public ResponseEntity<StandardResponse> updateMedication(@RequestBody RequestRegistryDto data, @PathVariable String medicationId){
-        CommonResponseDto responseData = MedicationService.updateMedication(data,medicationId);
+    @PutMapping("{paymentId}")
+    public ResponseEntity<StandardResponse> updatePayment(@RequestBody RequestRegistryDto data, @PathVariable String paymentId){
+        CommonResponseDto responseData = PaymentService.updatePayment(data,paymentId);
         return new ResponseEntity<>(
                 new StandardResponse(
                         responseData.getCode(),
@@ -50,9 +52,9 @@ public class MedicationController {
         );
     }
 
-    @DeleteMapping("{medicationId}")
-    public ResponseEntity<StandardResponse> deleteMedication(@PathVariable String medicationId){
-        CommonResponseDto responseData = MedicationService.removeMedication(medicationId);
+    @DeleteMapping("{paymentId}")
+    public ResponseEntity<StandardResponse> deletePayment(@PathVariable String paymentId){
+        CommonResponseDto responseData = PaymentService.removePayment(paymentId);
         return new ResponseEntity<>(
                 new StandardResponse(
                         responseData.getCode(),
@@ -63,38 +65,38 @@ public class MedicationController {
         );
     }
 
-    @GetMapping("{medicationId}")
-    public ResponseEntity<StandardResponse> getMedication(@PathVariable String medicationId)throws SQLException {
+    @GetMapping("{paymentId}")
+    public ResponseEntity<StandardResponse> getPayment(@PathVariable String paymentId)throws SQLException {
         return new ResponseEntity<>(
                 new StandardResponse(
                         200,
-                        "Medication List",
-                        MedicationService .medicationById(medicationId)),
+                        "Payment List",
+                        PaymentService .paymentById(paymentId)),
                 HttpStatus.OK
         );
     }
 
     @GetMapping("/all")
-    public ResponseEntity<StandardResponse> getAllMedication()throws SQLException{
+    public ResponseEntity<StandardResponse> getAllPayment()throws SQLException{
         return new ResponseEntity<>(
                 new StandardResponse(
                         200,
-                        "Medication  List",
-                        MedicationService .allMedication()),
+                        "Payment  List",
+                        PaymentService .allPayment()),
                 HttpStatus.OK
         );
     }
 
     @CrossOrigin(origins = "http://localhost:4200/")
     @GetMapping
-    public ResponseEntity<StandardResponse> getAllPagedMedication(
+    public ResponseEntity<StandardResponse> getAllPagedPayment(
             @RequestParam(defaultValue = "0") int page,
             @RequestParam(defaultValue = "10") int size) throws SQLException {
         return new ResponseEntity<>(
                 new StandardResponse(
                         200,
-                        "Medication List",
-                        MedicationService.getAllPagedMedication(page, size)),
+                        "Payment List",
+                        PaymentService.getAllPagedPayment(page, size)),
                 HttpStatus.OK
         );
     }
