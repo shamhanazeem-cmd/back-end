@@ -11,4 +11,6 @@ import org.springframework.stereotype.Repository;
 public interface PaymentMapper {
 
     Payment dtoToPaymentEntity(PaymentDto paymentDto);
+
+    PaymentDto toPaymentDto(Payment payment);
 }

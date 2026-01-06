@@ -96,6 +96,11 @@ public class RequestRegistryDto {
     private Date paymentDate;
 
 
+    private String invoiceNumber;
+    private Date issuedDate;
+    private Integer totalAmount;
+    private Integer payment;
+
 
 
 }
