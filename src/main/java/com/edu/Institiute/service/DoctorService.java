@@ -10,6 +10,7 @@ import java.sql.SQLException;
 
 public interface DoctorService {
 
+
     CommonResponseDto saveDoc(RequestRegistryDto data);
 
     CommonResponseDto updateDoc(RequestRegistryDto data, String doctorId);

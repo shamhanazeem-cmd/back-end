@@ -1,6 +1,5 @@
 package com.edu.Institiute.entity;
 
-
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
@@ -13,32 +12,21 @@ import java.util.Date;
 @Setter
 @RequiredArgsConstructor
 @AllArgsConstructor
-@Table(name = "Doctor")
-
-public class Doctor {
-
+@Table(name = "Invoice")
+public class Invoice {
     @Id
     @Column(name="id")
-    @GeneratedValue(strategy=GenerationType.IDENTITY)
+    @GeneratedValue(strategy= GenerationType.IDENTITY)
     private Integer id;
 
-    @Column(name="doctorSerialID")
-    private String doctorSerialID;
+    @Column(name="invoiceNumber")
+    private String invoiceNumber;
 
-    @Column(name="doctorName")
-    private String doctorName;
+    @Column(name="issuedDate")
+    private Date issuedDate;
 
-    @Column(name="qualifications")
-    private String qualifications;
-
-    @Column(name="contactDetails")
-    private String contactDetails;
-
-    @Column(name="mail")
-    private String mail;
-
-    @Column(name="roomNo")
-    private String roomNo;
+    @Column(name="totalAmount")
+    private Integer totalAmount;
 
     @Column(name="createdBy ")
     private String createdBy;
@@ -54,11 +42,12 @@ public class Doctor {
 
 
     @ManyToOne
+    @JoinColumn(name="payment_Id", referencedColumnName = "id")
+    private Payment payment;
+
+    @ManyToOne
     @JoinColumn(name="status_id", referencedColumnName = "id")
     private Status status;
 
-    @ManyToOne
-    @JoinColumn(name="specialization_id", referencedColumnName = "id")
-    private Specialization specializations;
 
 }
