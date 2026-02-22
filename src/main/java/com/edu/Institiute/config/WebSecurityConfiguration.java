@@ -33,21 +33,26 @@ public class WebSecurityConfiguration extends WebSecurityConfigurerAdapter{
 
     @Override
     protected void configure(HttpSecurity http)throws Exception{
+        http.addFilterBefore(jwtRequestFilter, UsernamePasswordAuthenticationFilter.class);
         http.cors().and().csrf().disable()
                 .authorizeRequests()
-                .antMatchers("/api/v1/user_sign_up",
-                        "/authenticate" ,"/api/v1/medicalhistory/**","/api/v1/prescription/**",
-                        "/api/v1/status/**","/api/v1/appointment/**","/api/v1/medication/**","/api/v1/notification/**",
-                        "/api/v1/patient/**", "/api/v1/specialization/**","/api/v1/schedule/**",
-                        "/api/v1/module/**","/api/v1/privilege/**","/api/v1/role/**").permitAll()
-                .antMatchers(HttpHeaders.ALLOW).permitAll()
-                //.anyRequest().authenticated()
-                .and()
-                .exceptionHandling().authenticationEntryPoint(jwtAuthenticationEntryPoint)
-                .and()
-                .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
+                .antMatchers(
+                        "/api/v1/user_sign_up",
+                        "/authenticate"
+                ).permitAll()
 
-        http.addFilterBefore(jwtRequestFilter, UsernamePasswordAuthenticationFilter.class);
+                .anyRequest().authenticated()
+                .and()
+                .exceptionHandling()
+                .authenticationEntryPoint(jwtAuthenticationEntryPoint)
+                .and()
+                .sessionManagement()
+                .sessionCreationPolicy(SessionCreationPolicy.STATELESS);
+
+        http.addFilterBefore(
+                jwtRequestFilter,
+                UsernamePasswordAuthenticationFilter.class
+        );
     }
 
     @Bean
