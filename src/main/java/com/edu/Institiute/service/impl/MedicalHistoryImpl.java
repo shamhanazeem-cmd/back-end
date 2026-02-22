@@ -1,5 +1,6 @@
 package com.edu.Institiute.service.impl;
 
+import com.edu.Institiute.config.SecurityUtil;
 import com.edu.Institiute.dto.MedicalHistoryDto;
 import com.edu.Institiute.dto.requestDto.RequestRegistryDto;
 import com.edu.Institiute.dto.responseDto.CommonResponseDto;
@@ -22,6 +23,8 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+
+import java.util.Date;
 import java.util.stream.Collectors;
 
 import java.sql.SQLException;
@@ -56,16 +59,19 @@ public class MedicalHistoryImpl implements MedicalHistoryService {
             int medicalHistoryId = generator.generateFourNumNumbers();
             Optional<Status> status = statusRepo.findStatusById(dto.getStatus());
 
+            String loggedUser = SecurityUtil.getLoggedUser();
+            String createdBy = (loggedUser != null) ? loggedUser : dto.getCreatedBy();
+
             MedicalHistoryDto medicalHistoryDto = new MedicalHistoryDto(
                     medicalHistoryId,
                     dto.getAllergies(),
                     dto.getPastSurgeries(),
                     dto.getChronicConditions(),
                     dto.getMedicalHistory(),
-                    dto.getCreatedBy(),
-                    dto.getCreatedDate(),
-                    dto.getModifyBy(),
-                    dto.getModifyDate(),
+                    createdBy,
+                    new Date(),
+                    "",
+                    null,
                     statusMapper.toStatusDto(status.get())
 
             );
