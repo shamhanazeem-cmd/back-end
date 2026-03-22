@@ -1,6 +1,7 @@
 package com.edu.Institiute.service.impl;
 
 
+import com.edu.Institiute.config.SecurityUtil;
 import com.edu.Institiute.dto.MedicalHistoryDto;
 import com.edu.Institiute.dto.ScheduleDto;
 import com.edu.Institiute.dto.requestDto.RequestRegistryDto;
@@ -29,6 +30,8 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+
+import java.util.Date;
 import java.util.stream.Collectors;
 
 import java.sql.SQLException;
@@ -63,6 +66,9 @@ public class ScheduleImpl implements ScheduleService {
             int scheduleId = generator.generateFourNumNumbers();
             Optional<Doctor> doctor = doctorRepo.findById(dto.getDoctor());
 
+            String loggedUser = SecurityUtil.getLoggedUser();
+            String createdBy = (loggedUser != null) ? loggedUser : dto.getCreatedBy();
+
             ScheduleDto scheduleDto = new ScheduleDto(
                     scheduleId,
                     dto.getDayOfWeek(),
@@ -70,10 +76,10 @@ public class ScheduleImpl implements ScheduleService {
                     dto.getEndTime(),
                     dto.getSlotDuration(),
                     dto.getMaxPatients(),
-                    dto.getCreatedBy(),
-                    dto.getCreatedDate(),
-                    dto.getModifyBy(),
-                    dto.getModifyDate(),
+                    createdBy,
+                    new Date(),
+                    "",
+                    null,
                     doctorMapper.toDoctorDto(doctor.get())
 
             );

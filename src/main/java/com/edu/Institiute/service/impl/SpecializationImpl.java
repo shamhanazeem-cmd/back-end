@@ -1,6 +1,7 @@
 
 package com.edu.Institiute.service.impl;
 
+import com.edu.Institiute.config.SecurityUtil;
 import com.edu.Institiute.dto.SpecializationDto;
 import com.edu.Institiute.dto.requestDto.RequestRegistryDto;
 import com.edu.Institiute.dto.responseDto.CommonResponseDto;
@@ -24,6 +25,7 @@ import org.springframework.transaction.annotation.Transactional;
 import java.sql.SQLException;
 import java.util.ArrayList;
 
+import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -48,14 +50,17 @@ public class SpecializationImpl implements SpecializationService {
         try {
             int specializationID = generator.generateFourNumNumbers();
 
+            String loggedUser = SecurityUtil.getLoggedUser();
+            String createdBy = (loggedUser != null) ? loggedUser : dto.getCreatedBy();
+
             SpecializationDto specializationDto = new SpecializationDto(
                     specializationID,
                     dto.getName(),
                     dto.getDescription(),
-                    dto.getCreatedBy(),
-                    dto.getCreatedDate(),
-                    dto.getModifyBy(),
-                    dto.getModifyDate()
+                    createdBy,
+                    new Date(),
+                    "",
+                    null
 
             );
             specializationRepo.save(specializationMapper.dtoToSpecializationEntity(specializationDto));

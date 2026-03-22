@@ -1,6 +1,7 @@
 package com.edu.Institiute.service.impl;
 
 
+import com.edu.Institiute.config.SecurityUtil;
 import com.edu.Institiute.dto.DoctorDto;
 import com.edu.Institiute.dto.requestDto.RequestRegistryDto;
 import com.edu.Institiute.dto.responseDto.CommonResponseDto;
@@ -24,6 +25,8 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+
+import java.util.Date;
 import java.util.stream.Collectors;
 import java.sql.SQLException;
 import java.util.ArrayList;
@@ -66,6 +69,9 @@ public class DoctorImpl implements DoctorService {
 
             Optional<Specialization> specialization = specializationRepo.findSpecializationById(dto.getSpecializations());
 
+            String loggedUser = SecurityUtil.getLoggedUser();
+            String createdBy = (loggedUser != null) ? loggedUser : dto.getCreatedBy();
+
                 DoctorDto doctorDto = new DoctorDto(
                         doctorId,
                         dto.getDoctorSerialID(),
@@ -73,10 +79,10 @@ public class DoctorImpl implements DoctorService {
                         dto.getContactDetails(),
                         dto.getMail(),
                         dto.getRoomNo(),
-                        dto.getCreatedBy(),
-                        dto.getCreatedDate(),
-                        dto.getModifyBy(),
-                        dto.getModifyDate(),
+                        createdBy,
+                        new Date(),
+                        "",
+                        null,
                         statusMapper.toStatusDto(status.get()),
                         specializationMapper.toSpecializationDto(specialization.get())
                 );

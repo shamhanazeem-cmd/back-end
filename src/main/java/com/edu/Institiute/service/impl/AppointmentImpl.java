@@ -1,6 +1,7 @@
 package com.edu.Institiute.service.impl;
 
 
+import com.edu.Institiute.config.SecurityUtil;
 import com.edu.Institiute.dto.AppointmentDto;
 import com.edu.Institiute.dto.requestDto.RequestRegistryDto;
 import com.edu.Institiute.dto.responseDto.AppointmentResponseDto;
@@ -21,6 +22,8 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+
+import java.util.Date;
 import java.util.stream.Collectors;
 
 import java.sql.SQLException;
@@ -77,15 +80,19 @@ public class AppointmentImpl implements AppointmentService {
             Optional<Schedule> schedule = scheduleRepo.findById(dto.getSchedule());
             Optional<Status> status = statusRepo.findStatusById(dto.getStatus());
 
+            String loggedUser = SecurityUtil.getLoggedUser();
+            String createdBy = (loggedUser != null) ? loggedUser : dto.getCreatedBy();
+
+
             AppointmentDto appointmentDto = new AppointmentDto(
                     appointmentId,
                     dto.getAppointmentSerialID(),
                     dto.getAppointmentDate(),
                     dto.getAppointmentTime(),
-                    dto.getCreatedBy(),
-                    dto.getCreatedDate(),
-                    dto.getModifyBy(),
-                    dto.getModifyDate(),
+                    createdBy,
+                    new Date(),
+                    "",
+                    null,
                     doctorMapper.toDoctorDto(doctor.get()),
                     patientMapper.toPatientDto(patient.get()),
                     scheduleMapper.toScheduleDto(schedule.get()),

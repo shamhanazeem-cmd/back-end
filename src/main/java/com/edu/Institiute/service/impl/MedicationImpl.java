@@ -1,6 +1,7 @@
 package com.edu.Institiute.service.impl;
 
 
+import com.edu.Institiute.config.SecurityUtil;
 import com.edu.Institiute.dto.DoctorDto;
 import com.edu.Institiute.dto.MedicationDto;
 import com.edu.Institiute.dto.requestDto.RequestRegistryDto;
@@ -24,6 +25,7 @@ import org.springframework.data.repository.query.FluentQuery;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.Date;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 import java.sql.SQLException;
@@ -63,8 +65,10 @@ public class MedicationImpl implements MedicationService {
         try {
             int medicationId = generator.generateFourNumNumbers();
             Optional<Status> status = statusRepo.findStatusById(dto.getStatus());
-
             Optional<Prescription> prescription = prescriptionRepo.findById(dto.getPrescription());
+
+            String loggedUser = SecurityUtil.getLoggedUser();
+            String createdBy = (loggedUser != null) ? loggedUser : dto.getCreatedBy();
 
             MedicationDto medicationDto = new MedicationDto(
                     medicationId,
@@ -72,10 +76,10 @@ public class MedicationImpl implements MedicationService {
                     dto.getDosage(),
                     dto.getDuration(),
                     dto.getInstructions(),
-                    dto.getCreatedBy(),
-                    dto.getCreatedDate(),
-                    dto.getModifyBy(),
-                    dto.getModifyDate(),
+                    createdBy,
+                    new Date(),
+                    "",
+                    null,
                     statusMapper.toStatusDto(status.get()),
                     prescriptionMapper.toPrescriptionDto(prescription.get())
             );

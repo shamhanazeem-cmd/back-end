@@ -57,6 +57,7 @@ public class RequestRegistryDto {
     private String roomNo;
     private String specializations;
 
+
     private String dayOfWeek;
     private String startTime;
     private String endTime;

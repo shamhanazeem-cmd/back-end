@@ -1,5 +1,6 @@
 package com.edu.Institiute.service.impl;
 
+import com.edu.Institiute.config.SecurityUtil;
 import com.edu.Institiute.dto.NotificationDto;
 import com.edu.Institiute.dto.requestDto.RequestRegistryDto;
 import com.edu.Institiute.dto.responseDto.CommonResponseDto;
@@ -18,6 +19,7 @@ import org.springframework.data.repository.query.FluentQuery;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.Date;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 import java.sql.SQLException;
@@ -56,17 +58,20 @@ public class NotificationImpl implements NotificationService {
         try {
             int notificationId = generator.generateFourNumNumbers();
             Optional<Status> status = statusRepo.findStatusById(dto.getStatus());
-
             Optional<Appointment> appointment = appointmentRepo.findById(dto.getAppointment());
+
+            String loggedUser = SecurityUtil.getLoggedUser();
+            String createdBy = (loggedUser != null) ? loggedUser : dto.getCreatedBy();
+
 
             NotificationDto notificationDto = new NotificationDto(
                     notificationId,
                     dto.getSentDate(),
                     dto.getChannel(),
-                    dto.getCreatedBy(),
-                    dto.getCreatedDate(),
-                    dto.getModifyBy(),
-                    dto.getModifyDate(),
+                    createdBy,
+                    new Date(),
+                    "",
+                    null,
                     appointmentMapper.toAppointmentDto(appointment.get()),
                     statusMapper.toStatusDto(status.get())
 
