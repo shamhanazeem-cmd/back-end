@@ -2,6 +2,7 @@ package com.edu.Institiute.service.impl;
 
 
 
+import com.edu.Institiute.config.SecurityUtil;
 import com.edu.Institiute.dto.PatientDto;
 import com.edu.Institiute.dto.requestDto.RequestRegistryDto;
 import com.edu.Institiute.dto.responseDto.CommonResponseDto;
@@ -36,6 +37,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -64,11 +66,15 @@ public class PatientImpl implements PatientService {
 
         Optional<MedicalHistory> medicalHistory = medicalRepo.findById(dto.getPatientMedicalHistory());
 
+        String loggedUser = SecurityUtil.getLoggedUser();
+        String createdBy = (loggedUser != null) ? loggedUser : dto.getCreatedBy();
+
+
         try {
 
             int patientId =  generator.generateFourNumNumbers();
             PatientDto patientDto = new PatientDto(
-                    patientId,
+                    20,
                     dto.getPatientSerialID(),
                     dto.getFullName(),
                     dto.getNic(),
@@ -78,10 +84,10 @@ public class PatientImpl implements PatientService {
                     dto.getContactNo(),
                     dto.getEmail(),
                     medicalHistoryMapper.entityToMedicalHistoryDTO(medicalHistory.get()),
-                    dto.getCreatedBy(),
-                    dto.getCreatedDate(),
-                    dto.getModifyBy(),
-                    dto.getModifyDate()
+                    createdBy,
+                    new Date(),
+                    "",
+                    null
             );
 
         patientRepo.save(patientMapper.dtoToPatientEntity(patientDto));

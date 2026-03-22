@@ -2,6 +2,7 @@ package com.edu.Institiute.service.impl;
 
 
 
+import com.edu.Institiute.config.SecurityUtil;
 import com.edu.Institiute.dto.DoctorDto;
 import com.edu.Institiute.dto.InvoiceDto;
 import com.edu.Institiute.dto.requestDto.RequestRegistryDto;
@@ -27,6 +28,8 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+
+import java.util.Date;
 import java.util.stream.Collectors;
 import java.sql.SQLException;
 import java.util.ArrayList;
@@ -66,18 +69,20 @@ public class InvoiceImpl implements InvoiceService {
         try {
             int invoiceId = generator.generateFourNumNumbers();
             Optional<Status> status = statusRepo.findStatusById(dto.getStatus());
-
             Optional<Payment> payment = paymentRepo.findById(dto.getPayment());
+
+            String loggedUser = SecurityUtil.getLoggedUser();
+            String createdBy = (loggedUser != null) ? loggedUser : dto.getCreatedBy();
 
             InvoiceDto invoiceDto = new InvoiceDto(
                     invoiceId,
                     dto.getInvoiceNumber(),
                     dto.getIssuedDate(),
                     dto.getTotalAmount(),
-                    dto.getCreatedBy(),
-                    dto.getCreatedDate(),
-                    dto.getModifyBy(),
-                    dto.getModifyDate(),
+                    createdBy,
+                    new Date(),
+                    "",
+                    null,
                     paymentMapper.toPaymentDto(payment.get()),
                     statusMapper.toStatusDto(status.get())
 

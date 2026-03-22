@@ -1,6 +1,7 @@
 package com.edu.Institiute.service.impl;
 
 
+import com.edu.Institiute.config.SecurityUtil;
 import com.edu.Institiute.dto.PrescriptionDto;
 import com.edu.Institiute.dto.requestDto.RequestRegistryDto;
 import com.edu.Institiute.dto.responseDto.CommonResponseDto;
@@ -21,6 +22,8 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+
+import java.util.Date;
 import java.util.stream.Collectors;
 
 import java.sql.SQLException;
@@ -77,14 +80,17 @@ public class PrescriptionImpl implements PrescriptionService {
             Optional<Appointment> appointment = appointmentRepo.findById(dto.getAppointment());
             Optional<Status> status = statusRepo.findStatusById(dto.getStatus());
 
+            String loggedUser = SecurityUtil.getLoggedUser();
+            String createdBy = (loggedUser != null) ? loggedUser : dto.getCreatedBy();
+
             PrescriptionDto prescriptionDto = new PrescriptionDto(
                     prescriptionId,
                     dto.getPrescriptionDate(),
                     dto.getNotes(),
-                    dto.getCreatedBy(),
-                    dto.getCreatedDate(),
-                    dto.getModifyBy(),
-                    dto.getModifyDate(),
+                    createdBy,
+                    new Date(),
+                    "",
+                    null,
                     doctorMapper.toDoctorDto(doctor.get()),
                     patientMapper.toPatientDto(patient.get()),
                     appointmentMapper.toAppointmentDto(appointment.get()),
