@@ -71,11 +71,11 @@ public class PatientImpl implements PatientService {
 
 
         try {
-
             int patientId =  generator.generateFourNumNumbers();
+            String newPatientSerialID =  "Patient"+"-" + generator.generateFourNumbers();
             PatientDto patientDto = new PatientDto(
-                    20,
-                    dto.getPatientSerialID(),
+                    patientId,
+                    newPatientSerialID,
                     dto.getFullName(),
                     dto.getNic(),
                     dto.getDob(),
@@ -92,7 +92,7 @@ public class PatientImpl implements PatientService {
 
         patientRepo.save(patientMapper.dtoToPatientEntity(patientDto));
 
-        return new CommonResponseDto(201, "Medical History  saved!", patientDto.getFullName(), new ArrayList<>());
+        return new CommonResponseDto(201, "Patient  saved!", patientDto.getFullName(), new ArrayList<>());
     }catch (Exception e){
         throw new EntryNotFoundException("Can't Save because of this Error -->  " + e);
     }
