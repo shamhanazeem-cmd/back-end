@@ -75,7 +75,10 @@ public class AppointmentImpl implements AppointmentService {
     public CommonResponseDto saveAppointment(RequestRegistryDto dto) {
         try {
             int appointmentId = generator.generateFourNumNumbers();
-            Optional<Doctor> doctor = doctorRepo.findById(dto.getDoctor());
+            Optional<Doctor> doctor = doctorRepo.findById(dto.getDoctorAppointment());
+            if (doctor.isEmpty()) {
+                throw new EntryNotFoundException("Doctor not found with ID: " + dto.getDoctorAppointment());
+            }
             Optional<Patient> patient = patientRepo.findById(dto.getPatient());
             Optional<Schedule> schedule = scheduleRepo.findById(dto.getSchedule());
             Optional<Status> status = statusRepo.findStatusById(dto.getStatus());
@@ -99,7 +102,14 @@ public class AppointmentImpl implements AppointmentService {
                     statusMapper.toStatusDto(status.get())
 
             );
+            Appointment appointmentEntity = appointmentMapper.dtoToAppointmentEntity(appointmentDto);
+
+            //  MANUALLY SET THE DOCTOR (This bypasses the broken Mapper)
+            if (doctor.isPresent()) {
+                appointmentEntity.setDoctorAppointment(doctor.get());
+            }
             appointmentRepo.save(appointmentMapper.dtoToAppointmentEntity(appointmentDto));
+
 
             return new CommonResponseDto(201, "Appointment saved!", appointmentDto.getAppointmentDate(), new ArrayList<>());
         }catch (Exception e){
@@ -115,6 +125,7 @@ public class AppointmentImpl implements AppointmentService {
             allAppointmentForProvidedId.setAppointmentSerialID(dto.getAppointmentSerialID());
             allAppointmentForProvidedId.setAppointmentDate(dto.getAppointmentDate());
             allAppointmentForProvidedId.setAppointmentTime(dto.getAppointmentTime());
+
 
             return new CommonResponseDto(201, "Appointment  Updated!",  allAppointmentForProvidedId.getAppointmentDate(), new ArrayList<>());
         }catch (Exception e){

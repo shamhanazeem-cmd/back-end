@@ -20,7 +20,7 @@ public class AppointmentDto {
     private Date createdDate;
     private String modifyBy;
     private Date modifyDate;
-    private DoctorDto doctor;
+    private DoctorDto doctorAppointment;
     private PatientDto patient;
     private ScheduleDto schedule;
     private StatusDto status;

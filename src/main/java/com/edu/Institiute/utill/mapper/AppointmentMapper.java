@@ -8,6 +8,7 @@ import org.springframework.stereotype.Repository;
 @Repository
 @Mapper(componentModel = "spring")
 public interface AppointmentMapper {
+
     Appointment dtoToAppointmentEntity(AppointmentDto appointmentDto);
 
     AppointmentDto toAppointmentDto(Appointment appointment);

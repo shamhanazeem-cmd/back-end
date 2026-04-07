@@ -62,6 +62,6 @@ public class Patient {
     private MedicalHistory medicalHistory;
 
     @ManyToOne
-    @JoinColumn(name="status_id", referencedColumnName = "id")
+    @JoinColumn(name = "status_id") // This matches your MySQL column name
     private Status status;
 }
