@@ -66,7 +66,6 @@ public class DoctorImpl implements DoctorService {
         try {
             int doctorId = generator.generateFourNumNumbers();
             Optional<Status> status = statusRepo.findStatusById(dto.getStatus());
-
             Optional<Specialization> specialization = specializationRepo.findSpecializationById(dto.getSpecializations());
 
             String loggedUser = SecurityUtil.getLoggedUser();

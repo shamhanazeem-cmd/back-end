@@ -16,10 +16,12 @@ import com.edu.Institiute.dto.responseDto.paginated.PaginatedResponsePatientDto;
 import com.edu.Institiute.entity.MedicalHistory;
 import com.edu.Institiute.entity.Patient;
 
+import com.edu.Institiute.entity.Status;
 import com.edu.Institiute.exception.EntryNotFoundException;
 import com.edu.Institiute.repo.MedicalHistoryRepo;
 import com.edu.Institiute.repo.PatientRepo;
 
+import com.edu.Institiute.repo.StatusRepo;
 import com.edu.Institiute.service.PatientService;
 import com.edu.Institiute.utill.Generator;
 
@@ -27,7 +29,7 @@ import com.edu.Institiute.utill.mapper.MedicalHistoryMapper;
 import com.edu.Institiute.utill.mapper.PatientMapper;
 
 
-
+import com.edu.Institiute.utill.mapper.StatusMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -61,6 +63,14 @@ public class PatientImpl implements PatientService {
     @Autowired
     private MedicalHistoryMapper medicalHistoryMapper;
 
+    @Autowired
+    private StatusRepo statusRepo;
+
+    @Autowired
+    private StatusMapper statusMapper;
+
+
+
     @Override
     public CommonResponseDto savePatient(RequestRegistryDto dto) {
 
@@ -72,6 +82,7 @@ public class PatientImpl implements PatientService {
 
         try {
             int patientId =  generator.generateFourNumNumbers();
+            Optional<Status> status = statusRepo.findStatusById(dto.getStatus());
             String newPatientSerialID =  "Patient"+"-" + generator.generateFourNumbers();
             PatientDto patientDto = new PatientDto(
                     patientId,
@@ -84,6 +95,7 @@ public class PatientImpl implements PatientService {
                     dto.getContactNo(),
                     dto.getEmail(),
                     medicalHistoryMapper.entityToMedicalHistoryDTO(medicalHistory.get()),
+                    statusMapper.toStatusDto(status.get()),
                     createdBy,
                     new Date(),
                     "",
@@ -154,6 +166,7 @@ public class PatientImpl implements PatientService {
                                 r.getContactNo(),
                                 r.getEmail(),
                                 medicalHistoryMapper.toMedicalHistoryDto(r.getMedicalHistory()),
+                                statusMapper.toStatusDto(r.getStatus()),
                                 r.getCreatedBy(),
                                 r.getCreatedDate(),
                                 r.getModifyBy(),
@@ -191,6 +204,7 @@ public class PatientImpl implements PatientService {
                                 r.getContactNo(),
                                 r.getEmail(),
                                 medicalHistoryMapper.toMedicalHistoryDto(r.getMedicalHistory()),
+                                statusMapper.toStatusDto(r.getStatus()),
                                 r.getCreatedBy(),
                                 r.getCreatedDate(),
                                 r.getModifyBy(),
@@ -227,6 +241,7 @@ public class PatientImpl implements PatientService {
                             patient.getContactNo(),
                             patient.getEmail(),
                             medicalHistoryMapper.toMedicalHistoryDto(patient.getMedicalHistory()),
+                            statusMapper.toStatusDto(patient.getStatus()),
                             patient.getCreatedBy(),
                             patient.getCreatedDate(),
                             patient.getModifyBy(),

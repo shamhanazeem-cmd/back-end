@@ -28,11 +28,13 @@ public class RequestRegistryDto {
     private String courseCode;
     private String courseName;
 
+    //medical history
     private String allergies;
     private String pastSurgeries;
     private String chronicConditions;
     private String medicalHistory;
 
+  //patient request registry
     private String patientSerialID;
     private String fullName;
     private String nic;
@@ -47,9 +49,11 @@ public class RequestRegistryDto {
     private Date modifyDate;
     private Integer patientMedicalHistory;
 
+    //specialization
     private String name;
     private String description;
 
+    //doctor
     private String doctorSerialID;
     private String doctorName;
     private String contactDetails;
@@ -58,6 +62,7 @@ public class RequestRegistryDto {
     private String specializations;
 
 
+    //schedule
     private String dayOfWeek;
     private String startTime;
     private String endTime;
@@ -65,17 +70,20 @@ public class RequestRegistryDto {
     private String maxPatients;
     private Integer doctor;
 
+    //appointment
     private String appointmentSerialID;
     private String appointmentDate;
     private String appointmentTime;
     private Integer patient;
     private Integer schedule;
+    private Integer doctorAppointment;
 
+    //prescription
     private Date prescriptionDate;
     private String notes;
     private Integer Appointment;
 
-
+//medication
     private Integer id;
     private String drugName;
     private String dosage;
@@ -83,11 +91,11 @@ public class RequestRegistryDto {
     private String instructions;
     private Integer prescription;
 
-
+//notification
     private Date sentDate;
     private String channel;
 
-
+     //payment
     private String paymentSerialID;
     private Integer hospitalCharge;
     private Integer doctorCharge;
@@ -96,7 +104,7 @@ public class RequestRegistryDto {
     private String paymentMethod;
     private Date paymentDate;
 
-
+//invoice
     private String invoiceNumber;
     private Date issuedDate;
     private Integer totalAmount;

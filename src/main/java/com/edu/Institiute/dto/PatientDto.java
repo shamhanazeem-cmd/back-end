@@ -21,6 +21,7 @@ public class PatientDto {
     private String contactNo;
     private String email;
     private MedicalHistoryDto medicalHistory;
+    private StatusDto status;
     private String createdBy;
     private Date createdDate;
     private String modifyBy;
