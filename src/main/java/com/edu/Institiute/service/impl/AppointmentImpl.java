@@ -76,12 +76,20 @@ public class AppointmentImpl implements AppointmentService {
         try {
             int appointmentId = generator.generateFourNumNumbers();
             Optional<Doctor> doctor = doctorRepo.findById(dto.getDoctorAppointment());
-            if (doctor.isEmpty()) {
-                throw new EntryNotFoundException("Doctor not found with ID: " + dto.getDoctorAppointment());
-            }
             Optional<Patient> patient = patientRepo.findById(dto.getPatient());
             Optional<Schedule> schedule = scheduleRepo.findById(dto.getSchedule());
             Optional<Status> status = statusRepo.findStatusById(dto.getStatus());
+
+
+            if (doctor.isEmpty()) {
+                throw new EntryNotFoundException("Doctor not found!");
+            }
+            if (patient.isEmpty()) {
+                throw new EntryNotFoundException("Patient not found!");
+            }
+            if (schedule.isEmpty()) {
+                throw new EntryNotFoundException("Schedule not found!");
+            }
 
             String loggedUser = SecurityUtil.getLoggedUser();
             String createdBy = (loggedUser != null) ? loggedUser : dto.getCreatedBy();

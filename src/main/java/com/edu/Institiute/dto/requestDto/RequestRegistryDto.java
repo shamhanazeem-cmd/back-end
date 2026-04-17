@@ -11,9 +11,10 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import java.util.Date;
+import java.util.List;
 
 
-@RequiredArgsConstructor
+ @RequiredArgsConstructor
 @AllArgsConstructor
 @Data
 public class RequestRegistryDto {
@@ -109,6 +110,16 @@ public class RequestRegistryDto {
     private Date issuedDate;
     private Integer totalAmount;
     private Integer payment;
+
+     // --- RFQ Header ---
+     private String rfqNumber;
+     private Date rfqRequestDate;
+     private String rfqRequestedBy;
+     private Date rfqRequiredDate;
+
+     // --- RFQ Details ---
+// This allows you to capture multiple items in one request
+     private List<RFQDetailsDto> rfqDetails;
 
 
 
