@@ -1,11 +1,9 @@
 package com.edu.Institiute.api;
 
 
-
 import com.edu.Institiute.dto.requestDto.RequestRegistryDto;
 import com.edu.Institiute.dto.responseDto.CommonResponseDto;
-import com.edu.Institiute.service.AppointmentService;
-import com.edu.Institiute.service.ScheduleService;
+import com.edu.Institiute.service.RFQService;
 import com.edu.Institiute.utill.StandardResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -16,17 +14,17 @@ import java.sql.SQLException;
 
 @CrossOrigin(origins = "http://localhost:4200/")
 @RestController
-@RequestMapping("/api/v1/appointment")
-
-public class AppointmentController {
+@RequestMapping("/api/v1/rfq")
+public class RFQController {
 
     @Autowired
-    private AppointmentService AppointmentService;
+    private RFQService RFQService;
 
     @CrossOrigin(origins = "http://localhost:4200/")
     @PostMapping
-    public ResponseEntity<StandardResponse> saveAppointment(@RequestBody RequestRegistryDto data){
-        CommonResponseDto responseData = AppointmentService.saveAppointment(data);
+
+    public ResponseEntity<StandardResponse> saveRFQ(@RequestBody RequestRegistryDto data){
+        CommonResponseDto responseData = RFQService.saveRFQ(data);
         return new ResponseEntity<>(
                 new StandardResponse(
                         responseData.getCode(),
@@ -37,64 +35,64 @@ public class AppointmentController {
         );
     }
 
-    @PutMapping("{appointmentId}")
-    public ResponseEntity<StandardResponse> updateAppointment(@RequestBody RequestRegistryDto data, @PathVariable String appointmentId){
-        CommonResponseDto responseData = AppointmentService.updateAppointment(data,appointmentId);
+    @PutMapping("{rfqId}")
+    public ResponseEntity<StandardResponse> updateRFQ(@RequestBody RequestRegistryDto data, @PathVariable String rfqId){
+        CommonResponseDto responseData = RFQService.updateRFQ(data,rfqId);
         return new ResponseEntity<>(
                 new StandardResponse(
                         responseData.getCode(),
                         responseData.getMessage(),
                         responseData.getData()
                 ),
-                HttpStatus.OK
+                HttpStatus.CREATED
         );
     }
 
-    @DeleteMapping("{appointmentId}")
-    public ResponseEntity<StandardResponse> deleteAppointment(@PathVariable String appointmentId){
-        CommonResponseDto responseData = AppointmentService.removeAppointment(appointmentId);
+    @DeleteMapping("{rfqId}")
+    public ResponseEntity<StandardResponse> deleteRFQ(@PathVariable String rfqId) throws SQLException {
+        CommonResponseDto responseData = RFQService.removeRFQ(rfqId);
         return new ResponseEntity<>(
                 new StandardResponse(
                         responseData.getCode(),
                         responseData.getMessage(),
                         responseData.getData()
                 ),
-                HttpStatus.OK
+                HttpStatus.CREATED
         );
     }
 
-    @GetMapping("{appointmentId}")
-    public ResponseEntity<StandardResponse> getAppointment(@PathVariable String appointmentId)throws SQLException {
+    @GetMapping("{rfqId}")
+    public ResponseEntity<StandardResponse> getRFQ(@PathVariable String rfqId)throws SQLException {
         return new ResponseEntity<>(
                 new StandardResponse(
                         200,
-                        "Appointment List",
-                        AppointmentService .appointmentById(appointmentId)),
+                        "RFQ List",
+                        RFQService .RFQById(rfqId)),
                 HttpStatus.OK
         );
     }
 
     @GetMapping("/all")
-    public ResponseEntity<StandardResponse> getAllAppointment()throws SQLException{
+    public ResponseEntity<StandardResponse> getAllRFQs()throws SQLException{
         return new ResponseEntity<>(
                 new StandardResponse(
                         200,
-                        "Appointment List",
-                        AppointmentService .allAppointment()),
+                        "RFQ  List",
+                        RFQService .allRFQs()),
                 HttpStatus.OK
         );
     }
 
     @CrossOrigin(origins = "http://localhost:4200/")
     @GetMapping
-    public ResponseEntity<StandardResponse> getAllPagedAppointment(
+    public ResponseEntity<StandardResponse> getAllPagedRFQ(
             @RequestParam(defaultValue = "0") int page,
             @RequestParam(defaultValue = "10") int size) throws SQLException {
         return new ResponseEntity<>(
                 new StandardResponse(
                         200,
-                        "Appointment List",
-                        AppointmentService.getAllPagedAppointment(page, size)),
+                        "RFQ List",
+                        RFQService.getAllPagedRFQ(page, size)),
                 HttpStatus.OK
         );
     }
