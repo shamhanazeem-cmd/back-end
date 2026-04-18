@@ -1,6 +1,5 @@
 package com.edu.Institiute.api;
 
-
 import com.edu.Institiute.dto.requestDto.RequestRegistryDto;
 import com.edu.Institiute.dto.responseDto.CommonResponseDto;
 import com.edu.Institiute.service.RFQService;
@@ -22,7 +21,6 @@ public class RFQController {
 
     @CrossOrigin(origins = "http://localhost:4200/")
     @PostMapping
-
     public ResponseEntity<StandardResponse> saveRFQ(@RequestBody RequestRegistryDto data){
         CommonResponseDto responseData = RFQService.saveRFQ(data);
         return new ResponseEntity<>(

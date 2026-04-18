@@ -35,7 +35,7 @@ public class RequestRegistryDto {
     private String chronicConditions;
     private String medicalHistory;
 
-  //patient request registry
+    //patient request registry
     private String patientSerialID;
     private String fullName;
     private String nic;
@@ -84,7 +84,7 @@ public class RequestRegistryDto {
     private String notes;
     private Integer Appointment;
 
-//medication
+    //medication
     private Integer id;
     private String drugName;
     private String dosage;
@@ -92,11 +92,11 @@ public class RequestRegistryDto {
     private String instructions;
     private Integer prescription;
 
-//notification
+    //notification
     private Date sentDate;
     private String channel;
 
-     //payment
+    //payment
     private String paymentSerialID;
     private Integer hospitalCharge;
     private Integer doctorCharge;
@@ -105,7 +105,7 @@ public class RequestRegistryDto {
     private String paymentMethod;
     private Date paymentDate;
 
-//invoice
+    //invoice
     private String invoiceNumber;
     private Date issuedDate;
     private Integer totalAmount;
@@ -116,11 +116,13 @@ public class RequestRegistryDto {
      private Date rfqRequestDate;
      private String rfqRequestedBy;
      private Date rfqRequiredDate;
-
-     // --- RFQ Details ---
-// This allows you to capture multiple items in one request
      private List<RFQDetailsDto> rfqDetails;
 
+     // --- RFQ Details ---
+     private String rfqHeader;
+     private String item;
+     private Integer quantity;
+     private String remarks;
 
 
 }
