@@ -52,4 +52,5 @@ public class RFQHeader {
 
     @OneToMany(mappedBy = "rfqHeader", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<RFQDetails> details = new ArrayList<>() ;
+
 }

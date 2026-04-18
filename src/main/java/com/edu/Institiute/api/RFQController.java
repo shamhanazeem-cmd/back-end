@@ -17,12 +17,12 @@ import java.sql.SQLException;
 public class RFQController {
 
     @Autowired
-    private RFQService RFQService;
+    private RFQService rfqService;
 
     @CrossOrigin(origins = "http://localhost:4200/")
     @PostMapping
     public ResponseEntity<StandardResponse> saveRFQ(@RequestBody RequestRegistryDto data){
-        CommonResponseDto responseData = RFQService.saveRFQ(data);
+        CommonResponseDto responseData = rfqService.saveRFQ(data);
         return new ResponseEntity<>(
                 new StandardResponse(
                         responseData.getCode(),
@@ -35,7 +35,7 @@ public class RFQController {
 
     @PutMapping("{rfqId}")
     public ResponseEntity<StandardResponse> updateRFQ(@RequestBody RequestRegistryDto data, @PathVariable String rfqId){
-        CommonResponseDto responseData = RFQService.updateRFQ(data,rfqId);
+        CommonResponseDto responseData = rfqService.updateRFQ(data,rfqId);
         return new ResponseEntity<>(
                 new StandardResponse(
                         responseData.getCode(),
@@ -48,7 +48,7 @@ public class RFQController {
 
     @DeleteMapping("{rfqId}")
     public ResponseEntity<StandardResponse> deleteRFQ(@PathVariable String rfqId) throws SQLException {
-        CommonResponseDto responseData = RFQService.removeRFQ(rfqId);
+        CommonResponseDto responseData = rfqService.removeRFQ(rfqId);
         return new ResponseEntity<>(
                 new StandardResponse(
                         responseData.getCode(),
@@ -65,7 +65,7 @@ public class RFQController {
                 new StandardResponse(
                         200,
                         "RFQ List",
-                        RFQService .RFQById(rfqId)),
+                        rfqService .RFQById(rfqId)),
                 HttpStatus.OK
         );
     }
@@ -76,7 +76,7 @@ public class RFQController {
                 new StandardResponse(
                         200,
                         "RFQ  List",
-                        RFQService .allRFQs()),
+                        rfqService .allRFQs()),
                 HttpStatus.OK
         );
     }
@@ -90,7 +90,7 @@ public class RFQController {
                 new StandardResponse(
                         200,
                         "RFQ List",
-                        RFQService.getAllPagedRFQ(page, size)),
+                        rfqService.getAllPagedRFQ(page, size)),
                 HttpStatus.OK
         );
     }
