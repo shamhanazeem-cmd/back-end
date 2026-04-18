@@ -1,16 +1,15 @@
 package com.edu.Institiute.service.impl;
 
-
 import com.edu.Institiute.config.SecurityUtil;
-import com.edu.Institiute.dto.DoctorDto;
 import com.edu.Institiute.dto.RFQDetailsDto;
-import com.edu.Institiute.dto.RFQDto;
+import com.edu.Institiute.dto.RFQHeaderDto;
 import com.edu.Institiute.dto.requestDto.RequestRegistryDto;
 import com.edu.Institiute.dto.responseDto.CommonResponseDto;
+import com.edu.Institiute.dto.responseDto.paginated.PaginatedResponseRFQDto;
 import com.edu.Institiute.entity.RFQDetails;
-import com.edu.Institiute.entity.Specialization;
+import com.edu.Institiute.entity.RFQHeader;
 import com.edu.Institiute.entity.Status;
-import com.edu.Institiute.exception.EntryNotFoundException;
+import com.edu.Institiute.repo.RFQDetailsRepo;
 import com.edu.Institiute.repo.RFQHeaderRepo;
 import com.edu.Institiute.repo.StatusRepo;
 import com.edu.Institiute.service.RFQService;
@@ -21,14 +20,14 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.ArrayList;
+import java.sql.SQLException;
 import java.util.Date;
-import java.util.List;
 import java.util.Optional;
 
 @Service
 @Transactional
 public class RFQImpl implements RFQService {
+
     @Autowired
     private Generator generator;
 
@@ -36,57 +35,82 @@ public class RFQImpl implements RFQService {
     private StatusRepo statusRepo;
 
     @Autowired
-    private StatusMapper statusMapper;
+    private RFQHeaderRepo rfqHeaderRepo;
 
     @Autowired
-    private RFQHeaderRepo rfqHeaderRepo;
+    private RFQDetailsRepo rfqDetailsRepo;
+
+    @Autowired
+    private StatusMapper statusMapper;
 
     @Autowired
     private RFQMapper rfqMapper;
 
     @Override
-    public CommonResponseDto saveRFQ(RequestRegistryDto dto) {
+    @Transactional(noRollbackFor = Exception.class)
+    public CommonResponseDto saveRFQ(RequestRegistryDto data) {
         try {
-            String rfqId = generator.generateFourNumbers();
-            Optional<Status> status = statusRepo.findStatusById(dto.getStatus());
+            String rfqNumber = String.valueOf(generator.generateFourNumNumbers());
+            String loggedUser = SecurityUtil.getLoggedUser();
+            String createdBy = (loggedUser != null) ? loggedUser : data.getCreatedBy();
 
-            List<RFQDetailsDto> detailDtos = new ArrayList<>();
-            if (dto.getRfqDetails() != null) {
-                for (RFQDetailsDto item : dto.getRfqDetails()) {
-                    RFQDetailsDto dDto = new RFQDetailsDto();
-                    dDto.setItem(item.getItem());
-                    dDto.setQuantity(item.getQuantity());
-                    dDto.setRemarks(item.getRemarks());
-                    detailDtos.add(dDto);
+            Optional<Status> status = statusRepo.findStatusById(data.getStatus());
+            if (status.isEmpty()) {
+                return new CommonResponseDto(400, "Invalid status ID", null, null);
+            }
+
+            RFQHeaderDto rfqHeaderDto = new RFQHeaderDto();
+            rfqHeaderDto.setRfqNumber(rfqNumber);
+            rfqHeaderDto.setRequestDate(data.getRfqRequestDate());
+            rfqHeaderDto.setRequestedBy(data.getRfqRequestedBy());
+            rfqHeaderDto.setRequiredDate(data.getRfqRequiredDate());
+            rfqHeaderDto.setCreatedBy(createdBy);
+            rfqHeaderDto.setCreatedDate(new Date());
+            rfqHeaderDto.setModifyBy("");
+            rfqHeaderDto.setModifyDate(null);
+            rfqHeaderDto.setStatus(statusMapper.toStatusDto(status.get()));
+
+            RFQHeader rfqHeaderEntity = rfqMapper.dtoToRFQHeaderEntity(rfqHeaderDto);
+            RFQHeader savedHeader = rfqHeaderRepo.save(rfqHeaderEntity);
+
+            if (data.getRfqDetails() != null && !data.getRfqDetails().isEmpty()) {
+                for (RFQDetailsDto detailDto : data.getRfqDetails()) {
+                    detailDto.setRfqHeader(rfqMapper.toRFQHeaderDto(savedHeader));
+                    RFQDetails detailEntity = rfqMapper.dtoToRFQDetailsEntity(detailDto);
+                    rfqDetailsRepo.save(detailEntity);
                 }
             }
 
-            String loggedUser = SecurityUtil.getLoggedUser();
-            String createdBy = (loggedUser != null) ? loggedUser : dto.getCreatedBy();
+            return new CommonResponseDto(201, "RFQ saved successfully", savedHeader.getRfqNumber(), null);
 
-            RFQDto rfqDto = new RFQDto(
-                    rfqId,
-                    dto.getRfqNumber(),
-                    dto.getRfqRequestDate(),
-                    dto.getRfqRequiredDate(),
-                    detailDtos,
-                    statusMapper.toStatusDto(status.get())
-
-            );
-
-            rfqHeaderRepo.save(rfqMapper.dtoToRFQEntity(rfqDto));
-
-            return new CommonResponseDto(201, "RFQ  saved!", rfqDto.getRfqNumber(), new ArrayList<>());
-        }catch (Exception e){
-            throw new EntryNotFoundException("Can't Save because of this Error -->  " + e);
+        } catch (Exception e) {
+            return new CommonResponseDto(500, "Failed to save RFQ: " + e.getMessage(), null, null);
         }
     }
 
+    @Override
+    public CommonResponseDto updateRFQ(RequestRegistryDto data, String rfqId) {
+        return null;
+    }
 
+    @Override
+    public CommonResponseDto removeRFQ(String rfqId) throws SQLException {
+        return null;
+    }
 
+    @Override
+    public PaginatedResponseRFQDto RFQById(String rfqId) throws SQLException {
+        return null;
+    }
 
+    @Override
+    public PaginatedResponseRFQDto allRFQs() throws SQLException {
+        return null;
+    }
 
-
-
+    @Override
+    public PaginatedResponseRFQDto getAllPagedRFQ(int page, int size) throws SQLException {
+        return null;
+    }
 
 }

@@ -46,7 +46,6 @@ public class RFQHeader {
     @Column(name="modifyDate")
     private Date modifyDate;
 
-
     @ManyToOne
     @JoinColumn(name="status_id", referencedColumnName = "id")
     private Status status;
