@@ -118,7 +118,6 @@ public class DoctorImpl implements DoctorService {
     public CommonResponseDto removeDoc(String doctorId) {
         Optional<Doctor> doctor = doctorRepo.getDoctorById(doctorId);
 
-
         if (doctor.isPresent()) {
             doctorRepo.delete(doctor.get());
             return new CommonResponseDto(201, "doctor was deleted!", true, new ArrayList<>());
