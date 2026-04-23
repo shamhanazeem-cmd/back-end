@@ -11,9 +11,9 @@ import java.util.Optional;
 @Repository
 public interface RFQHeaderRepo extends JpaRepository<RFQHeader,Integer> {
 
-    @Query(value = "SELECT * FROM RFQHeader WHERE id=:rfqId", nativeQuery = true)
+    @Query(value = "SELECT * FROM rfq_header WHERE id=:rfqId", nativeQuery = true)
     Optional<RFQHeader> findRfqById(@Param("rfqId") Integer rfqId);
 
     @Query(value = "SELECT * FROM rfq_header WHERE id = :rfqId", nativeQuery = true)
-    Optional<RFQHeader> getRfqDetailById(@Param("rfqId") Integer rfqId);
+    Optional<RFQHeader> getAllRFQsForProvidedId(@Param("rfqId") Integer rfqId);
 }

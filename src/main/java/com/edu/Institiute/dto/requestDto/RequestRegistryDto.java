@@ -124,5 +124,18 @@ public class RequestRegistryDto {
      private Integer quantity;
      private String remarks;
 
+     // --- SupplierQuotation Header ---
+     private String quotationNumber;
+     private String supplier;
+     private Date date;
+     private Integer rfq;
+     private List<SupplierQuotationDetailDto> S_details;
+
+     // --- SupplierQuotation Detail ---
+     private String SQ_item;
+     private Double quotedPrice;
+     private Integer SQ_quantity;
+     private Integer deliveryDays;
+     private String quotationHeader;
 
 }

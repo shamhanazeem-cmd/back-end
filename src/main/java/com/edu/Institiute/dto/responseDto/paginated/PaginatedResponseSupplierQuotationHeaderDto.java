@@ -1,11 +1,12 @@
 package com.edu.Institiute.dto.responseDto.paginated;
 
-import com.edu.Institiute.dto.responseDto.PatientResponseDto;
+import com.edu.Institiute.dto.responseDto.SupplierQuotationHeaderResponseDto;
+
 import java.util.List;
 
-public class PaginatedResponsePatientDto {
+public class PaginatedResponseSupplierQuotationHeaderDto {
     private Long count;
-    private List<PatientResponseDto> dataList;
+    private List<SupplierQuotationHeaderResponseDto> dataList;
     private int totalPages;
     private long totalElements;
     private int currentPage;
@@ -13,17 +14,17 @@ public class PaginatedResponsePatientDto {
     private boolean hasNext;
     private boolean hasPrevious;
 
-    public PaginatedResponsePatientDto() {
+    public PaginatedResponseSupplierQuotationHeaderDto() {
     }
 
-    public PaginatedResponsePatientDto(long count, List<PatientResponseDto> dataList) {
+    public PaginatedResponseSupplierQuotationHeaderDto(long count, List<SupplierQuotationHeaderResponseDto> dataList) {
         this.count = count;
         this.dataList = dataList;
     }
 
-    public PaginatedResponsePatientDto(long count, List<PatientResponseDto> dataList,
-                                              int totalPages, long totalElements, int currentPage,
-                                              int pageSize, boolean hasNext, boolean hasPrevious) {
+    public PaginatedResponseSupplierQuotationHeaderDto(long count, List<SupplierQuotationHeaderResponseDto> dataList,
+                                                       int totalPages, long totalElements, int currentPage,
+                                                       int pageSize, boolean hasNext, boolean hasPrevious) {
         this.count = count;
         this.dataList = dataList;
         this.totalPages = totalPages;
@@ -38,8 +39,8 @@ public class PaginatedResponsePatientDto {
     public long getCount() { return count; }
     public void setCount(long count) { this.count = count; }
 
-    public List<PatientResponseDto> getDataList() { return dataList; }
-    public void setDataList(List<PatientResponseDto> dataList) { this.dataList = dataList; }
+    public List<SupplierQuotationHeaderResponseDto> getDataList() { return dataList; }
+    public void setDataList(List<SupplierQuotationHeaderResponseDto> dataList) { this.dataList = dataList; }
 
     public int getTotalPages() { return totalPages; }
     public void setTotalPages(int totalPages) { this.totalPages = totalPages; }
@@ -59,4 +60,3 @@ public class PaginatedResponsePatientDto {
     public boolean isHasPrevious() { return hasPrevious; }
     public void setHasPrevious(boolean hasPrevious) { this.hasPrevious = hasPrevious; }
 }
-
