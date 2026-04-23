@@ -11,7 +11,6 @@ import java.util.Date;
 
 @Repository
 @Mapper(componentModel = "spring")
-
 public interface DoctorMapper {
 
     Doctor dtoToDoctorEntity(DoctorDto doctorDto);

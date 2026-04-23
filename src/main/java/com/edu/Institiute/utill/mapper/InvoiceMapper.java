@@ -9,8 +9,6 @@ import java.util.Date;
 
 @Repository
 @Mapper(componentModel = "spring")
-
-
 public interface InvoiceMapper {
 
     Invoice dtoToInvoiceEntity(InvoiceDto invoiceDto);

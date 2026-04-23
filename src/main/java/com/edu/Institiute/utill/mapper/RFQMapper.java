@@ -5,7 +5,7 @@ import com.edu.Institiute.dto.RFQHeaderDto;
 import com.edu.Institiute.entity.RFQDetails;
 import com.edu.Institiute.entity.RFQHeader;
 import org.mapstruct.Mapper;
-import org.springframework.stereotype.Repository;
+import org.mapstruct.Mapping;
 
 @Mapper(componentModel = "spring")
 public interface RFQMapper {
@@ -13,5 +13,7 @@ public interface RFQMapper {
     RFQHeaderDto toRFQHeaderDto(RFQHeader RFQHeader);
 
     RFQDetails dtoToRFQDetailsEntity(RFQDetailsDto RFQDetailsDto);
+
+    @Mapping(target = "rfqHeader", ignore = true)
     RFQDetailsDto toRFQDetailsDto(RFQDetails RFQDetails);
 }

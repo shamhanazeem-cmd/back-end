@@ -165,7 +165,7 @@ public class RFQImpl implements RFQService {
     public PaginatedResponseRFQDto RFQById(String rfqId) {
         try {
             Integer id = Integer.parseInt(rfqId);
-            Optional<RFQHeader> allRfqForProvidedId = rfqHeaderRepo.getRfqDetailById(id);
+            Optional<RFQHeader> allRfqForProvidedId = rfqHeaderRepo.getAllRFQsForProvidedId(id);
             List<RFQResponseDto> rfqResponseDtos = new ArrayList<>();
 
             if (allRfqForProvidedId.isPresent()) {
