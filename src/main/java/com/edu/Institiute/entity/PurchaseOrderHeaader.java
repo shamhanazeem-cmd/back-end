@@ -5,38 +5,33 @@ import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import lombok.Setter;
 import javax.persistence.*;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 @Entity
 @Getter
 @Setter
 @RequiredArgsConstructor
 @AllArgsConstructor
-@Table(name = "Doctor")
-public class Doctor {
-
+@Table(name = "purchase_order_heaader")
+public class PurchaseOrderHeaader {
     @Id
     @Column(name="id")
-    @GeneratedValue(strategy=GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
-    @Column(name="doctorSerialID")
-    private String doctorSerialID;
+    @Column(name="poNumber")
+    private String poNumber;
 
-    @Column(name="doctorName")
-    private String doctorName;
+    @Column(name="poSupplier")
+    private String poSupplier;
 
-    @Column(name="qualifications")
-    private String qualifications;
+    @Column(name="poDate")
+    private Date poDate;
 
-    @Column(name="contactDetails")
-    private String contactDetails;
-
-    @Column(name="mail")
-    private String mail;
-
-    @Column(name="roomNo")
-    private String roomNo;
+    @Column(name="expectedDate")
+    private Date expectedDate;
 
     @Column(name="createdBy ")
     private String createdBy;
@@ -50,13 +45,10 @@ public class Doctor {
     @Column(name="modifyDate")
     private Date modifyDate;
 
-
     @ManyToOne
     @JoinColumn(name="status_id", referencedColumnName = "id")
     private Status status;
 
-    @ManyToOne
-    @JoinColumn(name="specialization_id", referencedColumnName = "id")
-    private Specialization specializations;
-
+    @OneToMany(mappedBy = "PO_Header", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<PurchaseOrderDetails> PO_details = new ArrayList<>();
 }
