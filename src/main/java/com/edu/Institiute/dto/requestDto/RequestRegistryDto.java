@@ -138,4 +138,19 @@ public class RequestRegistryDto {
      private Integer deliveryDays;
      private String quotationHeader;
 
+     // --- PO Header ---
+     private String poNumber;
+     private String poSupplier;
+     private Date poDate;
+     private Date expectedDate;
+     private List<PurchaseOrderDetailsDto> PO_details;
+
+     // --- PO Detail ---
+     private String poItem;
+     private Integer orderedQuantity;
+     private Double price;
+     private Double total;
+     private String PO_Header;
+
+
 }
