@@ -13,6 +13,7 @@ import com.edu.Institiute.service.PurchaseOrderService;
 import com.edu.Institiute.utill.Generator;
 import com.edu.Institiute.utill.mapper.PurchaseOrderMapper;
 import com.edu.Institiute.utill.mapper.StatusMapper;
+import com.edu.Institiute.utill.mapper.SupplierMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -38,6 +39,12 @@ public class PurchaseOrderImpl implements PurchaseOrderService {
     private StatusRepo statusRepo;
 
     @Autowired
+    private SupplierRepo supplierRepo;
+
+    @Autowired
+    private SupplierMapper supplierMapper;
+
+    @Autowired
     private PurchaseOrderHeaderRepo purchaseOrderHeaderRepo;
 
     @Autowired
@@ -60,10 +67,15 @@ public class PurchaseOrderImpl implements PurchaseOrderService {
             Optional<Status> status = statusRepo.findStatusById(data.getStatus());
             if (status.isEmpty()) return new CommonResponseDto(400, "Invalid status ID", null, null);
 
+            Optional<Supplier> supplier = supplierRepo.findById(data.getSupplier());
+            if (supplier.isEmpty()) {
+                return new CommonResponseDto(400, "Invalid Supplier ID", null, null);
+            }
+
             // Mapping Header
             PurchaseOrderHeaader poHeader = new PurchaseOrderHeaader();
             poHeader.setPoNumber(poNumber);
-            poHeader.setPoSupplier(data.getPoSupplier());
+            poHeader.setSupplier(supplier.get());
             poHeader.setPoDate(data.getPoDate());
             poHeader.setExpectedDate(data.getExpectedDate());
             poHeader.setCreatedBy(createdBy);
@@ -98,7 +110,10 @@ public class PurchaseOrderImpl implements PurchaseOrderService {
             PurchaseOrderHeaader existingPo = purchaseOrderHeaderRepo.findById(id)
                     .orElseThrow(() -> new EntryNotFoundException("PO not found"));
 
-            existingPo.setPoSupplier(dto.getSupplier());
+            Supplier linkedSupplier = supplierRepo.findById(dto.getSupplier())
+                    .orElseThrow(() -> new EntryNotFoundException("Supplier not found with ID: " + dto.getSupplier()));
+            existingPo.setSupplier(linkedSupplier);
+
             existingPo.setExpectedDate(dto.getExpectedDate());
 
             // Handle Details update
@@ -172,7 +187,7 @@ public class PurchaseOrderImpl implements PurchaseOrderService {
                         new PurchaseOrderHeaderResponseDto(
                                 po.getId(),
                                 po.getPoNumber(),
-                                po.getPoSupplier(),
+                                supplierMapper.toSupplierDto(po.getSupplier()),
                                 po.getPoDate(),
                                 po.getExpectedDate(),
                                 po.getCreatedBy(),
@@ -224,7 +239,7 @@ public class PurchaseOrderImpl implements PurchaseOrderService {
                         new PurchaseOrderHeaderResponseDto(
                                 p.getId(),
                                 p.getPoNumber(),
-                                p.getPoSupplier(),
+                                supplierMapper.toSupplierDto(p.getSupplier()),
                                 p.getPoDate(),
                                 p.getExpectedDate(),
                                 p.getCreatedBy(),
@@ -271,7 +286,7 @@ public class PurchaseOrderImpl implements PurchaseOrderService {
                         return new PurchaseOrderHeaderResponseDto(
                                 p.getId(),
                                 p.getPoNumber(),
-                                p.getPoSupplier(),
+                                supplierMapper.toSupplierDto(p.getSupplier()),
                                 p.getPoDate(),
                                 p.getExpectedDate(),
                                 p.getCreatedBy(),

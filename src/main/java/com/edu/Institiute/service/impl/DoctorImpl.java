@@ -40,7 +40,6 @@ public class DoctorImpl implements DoctorService {
     @Autowired
     private Generator generator;
 
-
     @Autowired
     private StatusRepo statusRepo;
 
@@ -58,8 +57,6 @@ public class DoctorImpl implements DoctorService {
 
     @Autowired
     private DoctorMapper doctorMapper;
-
-
 
     @Override
     public CommonResponseDto saveDoc(RequestRegistryDto dto) {

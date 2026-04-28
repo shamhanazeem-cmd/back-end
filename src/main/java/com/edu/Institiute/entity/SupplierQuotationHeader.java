@@ -24,8 +24,9 @@ public class SupplierQuotationHeader {
     @Column(name="quotationNumber")
     private String quotationNumber;
 
-    @Column(name="supplier")
-    private String supplier;
+    @ManyToOne
+    @JoinColumn(name = "supplier_id" , referencedColumnName ="supplier_id")
+    private Supplier supplier;
 
     @Column(name="date")
     private Date date;

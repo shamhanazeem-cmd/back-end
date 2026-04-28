@@ -12,7 +12,7 @@ import java.util.List;
 public class PurchaseOrderHeaderDto {
     private Long id;
     private String poNumber;
-    private String poSupplier;
+    private SupplierDTO supplier;
     private Date poDate;
     private Date expectedDate;
     private String createdBy;

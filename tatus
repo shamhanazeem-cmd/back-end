@@ -1,0 +1,10 @@
+[33m4ae1df7[m[33m ([m[1;36mHEAD[m[33m -> [m[1;32m46-supplier[m[33m, [m[1;31morigin/main[m[33m, [m[1;31morigin/HEAD[m[33m, [m[1;31morigin/46-supplier[m[33m)[m Merge pull request #44 from shamhanazeem-cmd/43-supplier-quotation
+[33mf52b7c8[m[33m ([m[1;31morigin/43-supplier-quotation[m[33m, [m[1;32m43-supplier-quotation[m[33m)[m Supplier Quotation CRUD created
+[33m919bef8[m Merge pull request #42 from shamhanazeem-cmd/39-rfq
+[33mb143507[m[33m ([m[1;31morigin/39-rfq[m[33m, [m[1;32m39-rfq[m[33m)[m RFQ CRUD created
+[33me628a45[m Merge pull request #41 from shamhanazeem-cmd/36-qa-issue
+[33mfa6382f[m[33m ([m[1;31morigin/36-qa-issue[m[33m)[m rfq Save completed.
+[33md08ee53[m Merge pull request #40 from shamhanazeem-cmd/39-rfq
+[33mba949ed[m RFQ save error
+[33m4a95b96[m Merge pull request #38 from shamhanazeem-cmd/33-due-test
+[33m9fb756e[m[33m ([m[1;31morigin/33-due-test[m[33m, [m[1;32m33-due-test[m[33m)[m appointment save fixed

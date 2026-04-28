@@ -24,8 +24,9 @@ public class PurchaseOrderHeaader {
     @Column(name="poNumber")
     private String poNumber;
 
-    @Column(name="poSupplier")
-    private String poSupplier;
+    @ManyToOne
+    @JoinColumn(name="poSupplier_id", referencedColumnName = "supplier_id")
+    private Supplier supplier;
 
     @Column(name="poDate")
     private Date poDate;
