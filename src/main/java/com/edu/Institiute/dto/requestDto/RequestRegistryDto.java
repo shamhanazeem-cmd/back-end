@@ -126,7 +126,7 @@ public class RequestRegistryDto {
 
      // --- SupplierQuotation Header ---
      private String quotationNumber;
-     private String supplier;
+     private Integer supplier;
      private Date date;
      private Integer rfq;
      private List<SupplierQuotationDetailDto> S_details;
@@ -140,7 +140,6 @@ public class RequestRegistryDto {
 
      // --- PO Header ---
      private String poNumber;
-     private String poSupplier;
      private Date poDate;
      private Date expectedDate;
      private List<PurchaseOrderDetailsDto> PO_details;
@@ -151,6 +150,37 @@ public class RequestRegistryDto {
      private Double price;
      private Double total;
      private String PO_Header;
+
+     //--supplier--
+     private String supplierCode;
+     private String supplierName;
+     private String supplierType;
+     private String currencyCode;
+     private Integer paymentTermsId;
+     private String taxNumber;
+     private String contactName;
+     private String phone;
+     List<SupplierAddressDTO> addresses;
+     List<SupplierBankAccountDTO> bankAccounts;
+
+     //--SupplierAddress--
+     private String addressType;
+     private String streetLine1;
+     private String streetLine2;
+     private String city;
+     private String state;
+     private String postalCode;
+     private String countryCode;
+     private Boolean isPrimary;
+
+     //--SupplierBankAccount--
+     private String bankName;
+     private String accountNumber;
+     private String accountName;
+     private String iban;
+     private String swiftCode;
+     private Boolean isDefault;
+
 
 
 }

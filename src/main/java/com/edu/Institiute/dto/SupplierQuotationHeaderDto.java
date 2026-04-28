@@ -13,7 +13,7 @@ import java.util.List;
 public class SupplierQuotationHeaderDto {
     private Integer id;
     private String quotationNumber;
-    private String supplier;
+    private SupplierDTO supplier;
     private Date date;
     private RFQHeaderDto rfq;
     private StatusDto status;

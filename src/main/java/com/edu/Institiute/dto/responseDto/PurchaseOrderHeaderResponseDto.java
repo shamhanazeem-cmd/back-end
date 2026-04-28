@@ -2,6 +2,7 @@ package com.edu.Institiute.dto.responseDto;
 
 import com.edu.Institiute.dto.PurchaseOrderDetailsDto;
 import com.edu.Institiute.dto.StatusDto;
+import com.edu.Institiute.dto.SupplierDTO;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -15,7 +16,7 @@ import java.util.List;
 public class PurchaseOrderHeaderResponseDto {
     private Integer id;
     private String poNumber;
-    private String poSupplier;
+    private SupplierDTO supplier;
     private Date poDate;
     private Date expectedDate;
     private String createdBy;

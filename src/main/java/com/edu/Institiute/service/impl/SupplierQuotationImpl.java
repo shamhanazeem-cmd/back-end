@@ -8,16 +8,14 @@ import com.edu.Institiute.dto.responseDto.RFQResponseDto;
 import com.edu.Institiute.dto.responseDto.SupplierQuotationHeaderResponseDto;
 import com.edu.Institiute.dto.responseDto.paginated.PaginatedResponseSupplierQuotationDetailDto;
 import com.edu.Institiute.dto.responseDto.paginated.PaginatedResponseSupplierQuotationHeaderDto;
-import com.edu.Institiute.entity.RFQHeader;
-import com.edu.Institiute.entity.Status;
-import com.edu.Institiute.entity.SupplierQuotationDetail;
-import com.edu.Institiute.entity.SupplierQuotationHeader;
+import com.edu.Institiute.entity.*;
 import com.edu.Institiute.exception.EntryNotFoundException;
 import com.edu.Institiute.repo.*;
 import com.edu.Institiute.service.SupplierQuotationService;
 import com.edu.Institiute.utill.Generator;
 import com.edu.Institiute.utill.mapper.RFQMapper;
 import com.edu.Institiute.utill.mapper.StatusMapper;
+import com.edu.Institiute.utill.mapper.SupplierMapper;
 import com.edu.Institiute.utill.mapper.SupplierQuotationMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -52,6 +50,12 @@ public class SupplierQuotationImpl implements SupplierQuotationService {
     private RFQMapper rfqMapper;
 
     @Autowired
+    private SupplierRepo supplierRepo;
+
+    @Autowired
+    private SupplierMapper supplierMapper;
+
+    @Autowired
     private SupplierQuotationMapper supplierQuotationMapper;
 
     @Autowired
@@ -78,9 +82,13 @@ public class SupplierQuotationImpl implements SupplierQuotationService {
                 return new CommonResponseDto(400, "Invalid rfqHeader ID", null, null);
             }
 
+            Optional<Supplier> supplier = supplierRepo.findById(data.getSupplier());
+            if (supplier.isEmpty()) {
+                return new CommonResponseDto(400, "Invalid Supplier ID", null, null);
+            }
             SupplierQuotationHeader header = new SupplierQuotationHeader();
             header.setQuotationNumber(data.getQuotationNumber());
-            header.setSupplier(data.getSupplier());
+            header.setSupplier((supplier.get()));
             header.setDate(data.getDate());
             header.setCreatedBy(createdBy);
             header.setCreatedDate(new Date());
@@ -123,8 +131,11 @@ public class SupplierQuotationImpl implements SupplierQuotationService {
 
 
             existingQuotation.setQuotationNumber(dto.getQuotationNumber());
-            existingQuotation.setSupplier(dto.getSupplier());
             existingQuotation.setDate(dto.getDate());
+
+            Supplier linkedSupplier = supplierRepo.findById(dto.getSupplier())
+                    .orElseThrow(() -> new EntryNotFoundException("Supplier not found with ID: " + dto.getSupplier()));
+            existingQuotation.setSupplier(linkedSupplier);
 
             RFQHeader linkedRfq = rfqHeaderRepo.findById(dto.getRfq())
                     .orElseThrow(() -> new EntryNotFoundException("RFQ not found with ID: " + dto.getRfq()));
@@ -213,7 +224,7 @@ public class SupplierQuotationImpl implements SupplierQuotationService {
                         new SupplierQuotationHeaderResponseDto(
                                 q.getId(),
                                 q.getQuotationNumber(),
-                                q.getSupplier(),
+                                supplierMapper.toSupplierDto(q.getSupplier()),
                                 q.getDate(),
                                 rfqMapper.toRFQHeaderDto(q.getRfq()),
                                 statusMapper.toStatusDto(q.getStatus()),
@@ -266,7 +277,7 @@ public class SupplierQuotationImpl implements SupplierQuotationService {
                         new SupplierQuotationHeaderResponseDto(
                                 q.getId(),
                                 q.getQuotationNumber(),
-                                q.getSupplier(),
+                                supplierMapper.toSupplierDto(q.getSupplier()),
                                 q.getDate(),
                                 rfqMapper.toRFQHeaderDto(q.getRfq()),
                                 statusMapper.toStatusDto(q.getStatus()),
@@ -314,7 +325,7 @@ public class SupplierQuotationImpl implements SupplierQuotationService {
                         return new SupplierQuotationHeaderResponseDto(
                                 q.getId(),
                                 q.getQuotationNumber(),
-                                q.getSupplier(),
+                                supplierMapper.toSupplierDto(q.getSupplier()),
                                 q.getDate(),
                                 rfqMapper.toRFQHeaderDto(q.getRfq()),
                                 statusMapper.toStatusDto(q.getStatus()),
