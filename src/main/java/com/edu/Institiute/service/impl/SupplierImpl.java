@@ -71,6 +71,10 @@ public class SupplierImpl implements SupplierService {
             String loggedUser = SecurityUtil.getLoggedUser();
             String createdBy = (loggedUser != null) ? loggedUser : "SYSTEM";
 
+            if (dto.getStatus() == null || dto.getPayment() == null) {
+                return new CommonResponseDto(400, "Status or Payment ID cannot be null", null, null);
+            }
+
             Optional<Status> status = statusRepo.findStatusById(dto.getStatus());
             if (status.isEmpty()) {
                 return new CommonResponseDto(400, "Invalid status ID", null, null);
@@ -98,18 +102,18 @@ public class SupplierImpl implements SupplierService {
             Supplier SupplierEntity = supplierMapper.dtoToEntity(supplierDto);
             Supplier savedSupplier = supplierRepo.save(SupplierEntity);
 
-            if (dto.getAddresses() != null && !dto.getAddress().isEmpty()) {
+            if (dto.getAddresses() != null && !dto.getAddresses().isEmpty()) {
                 for (SupplierAddressDTO addressDTO : dto.getAddresses()) {
-                    addressDTO.setSupplier(addressMapper.toSupplierAddressDto(savedSupplier));
                     SupplierAddress addressEntity = addressMapper.dtoToEntity(addressDTO);
+                    addressEntity.setSupplier(savedSupplier);
                     addressRepo.save(addressEntity);
                 }
             }
 
             if (dto.getBankAccounts() != null && !dto.getBankAccounts().isEmpty()) {
                 for (SupplierBankAccountDTO bankAccountDTO : dto.getBankAccounts()) {
-                    bankAccountDTO.setSupplier(accountMapper.toSupplierAccountDto(savedSupplier));
                     SupplierBankAccount accountEntity = accountMapper.dtoToEntity(bankAccountDTO);
+                    accountEntity.setSupplier(savedSupplier);
                     accountRepo.save(accountEntity);
                 }
             }
