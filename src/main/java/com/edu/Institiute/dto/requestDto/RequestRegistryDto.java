@@ -156,7 +156,6 @@ public class RequestRegistryDto {
      private String supplierName;
      private String supplierType;
      private String currencyCode;
-     private Integer paymentTermsId;
      private String taxNumber;
      private String contactName;
      private String phone;
