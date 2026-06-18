@@ -19,16 +19,16 @@ public class PurchaseOrderDetails {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
-    @JoinColumn(name = "PO_Item")
+    @Column(name = "PO_Item")
     private String poItem;
 
-    @JoinColumn(name = "orderedQuantity")
+    @Column(name = "orderedQuantity")
     private Integer orderedQuantity;
 
-    @JoinColumn(name = "price")
+    @Column(name = "price")
     private Double price;
 
-    @JoinColumn(name = "total")
+    @Column(name = "total")
     private Double total; // Calculated in Service
 
     @ManyToOne
