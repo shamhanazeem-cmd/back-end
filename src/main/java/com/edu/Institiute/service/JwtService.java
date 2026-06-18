@@ -7,7 +7,6 @@ import com.edu.Institiute.entity.User;
 import com.edu.Institiute.repo.UserRepo;
 import com.edu.Institiute.utill.JwtUtil;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -34,29 +33,23 @@ public class JwtService implements UserDetailsService {
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
+        User user = userRepo.findById(username)
+                .orElseThrow(() -> new UsernameNotFoundException("User not found with username: " + username));
 
-        User user = userRepo.findById(username).get();
-
-        if (user!=null){
-            return new org.springframework.security.core.userdetails.User(
-                    user.getUserName(),
-                    user.getUserPassword(),
-                    getAuthority(user)
-            );
-
-        }else {
-            throw new UsernameNotFoundException("User not found with username" + username);
-        }
-
+        return new org.springframework.security.core.userdetails.User(
+                user.getUserName(),
+                user.getUserPassword(),
+                getAuthority(user)
+        );
     }
 
-    private Set getAuthority(User user){
-
+    private Set<SimpleGrantedAuthority> getAuthority(User user) {
         Set<SimpleGrantedAuthority> authorities = new HashSet<>();
-        for (Role role: user.getRole()){
-            authorities.add(new SimpleGrantedAuthority("ROLE_"+role.getRoleName()));
+        if (user.getRole() != null) {
+            for (Role role : user.getRole()) {
+                authorities.add(new SimpleGrantedAuthority("ROLE_" + role.getRoleName()));
+            }
         }
-
         return authorities;
     }
 
@@ -69,7 +62,8 @@ public class JwtService implements UserDetailsService {
 
         UserDetails userDetails = loadUserByUsername(username);
         String newGeneratedToken = jwtUtil.generateToken(userDetails);
-        User user = userRepo.findById(username).get();
+        User user = userRepo.findById(username)
+                .orElseThrow(() -> new UsernameNotFoundException("User not found with username: " + username));
 
         LoginResponseDto loginResponseDto = new LoginResponseDto(
                 user,
