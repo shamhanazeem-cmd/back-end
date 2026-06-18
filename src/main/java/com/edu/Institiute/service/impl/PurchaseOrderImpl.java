@@ -142,7 +142,7 @@ public class PurchaseOrderImpl implements PurchaseOrderService {
         try {
             Integer id = Integer.parseInt(poId);
 
-            Optional<PurchaseOrderHeaader> po = purchaseOrderHeaderRepo.findPoById(id);
+            Optional<PurchaseOrderHeaader> po = purchaseOrderHeaderRepo.findById(id);
 
             if (po.isPresent()) {
                 purchaseOrderHeaderRepo.delete(po.get());
@@ -159,121 +159,113 @@ public class PurchaseOrderImpl implements PurchaseOrderService {
     }
 
     @Override
+    @Transactional(readOnly = true)
     public PaginatedResponsePurchaseOrderHeaderDto POById(String poId) {
+        Integer id;
         try {
-            Integer id = Integer.parseInt(poId);
-            Optional<PurchaseOrderHeaader> poHeaderOpt = purchaseOrderHeaderRepo.getAllRFQsForProvidedId(id);
-            List<PurchaseOrderHeaderResponseDto> poResponseDtos = new ArrayList<>();
-
-            if (poHeaderOpt.isPresent()) {
-                PurchaseOrderHeaader po = poHeaderOpt.get();
-
-                List<PurchaseOrderDetailsDto> detailDtoList = new ArrayList<>();
-                if (po.getPO_details() != null) {
-                    for (PurchaseOrderDetails d : po.getPO_details()) {
-                        detailDtoList.add(new PurchaseOrderDetailsDto(
-                                0,
-                                d.getPoItem(),
-                                d.getOrderedQuantity(),
-                                d.getPrice(),
-                                d.getTotal(),
-                                null
-
-                        ));
-                    }
-                }
-
-                poResponseDtos.add(
-                        new PurchaseOrderHeaderResponseDto(
-                                po.getId(),
-                                po.getPoNumber(),
-                                supplierMapper.toSupplierDto(po.getSupplier()),
-                                po.getPoDate(),
-                                po.getExpectedDate(),
-                                po.getCreatedBy(),
-                                po.getCreatedDate(),
-                                po.getModifyBy(),
-                                po.getModifyDate(),
-                                statusMapper.toStatusDto(po.getStatus()),
-                                detailDtoList
-                        )
-                );
-            }
-
-            return new PaginatedResponsePurchaseOrderHeaderDto(
-                    purchaseOrderHeaderRepo.count(),
-                    poResponseDtos
-            );
-        } catch (Exception e) {
-            throw new EntryNotFoundException("Can't find any Purchase Order data for provided ID...!");
+            id = Integer.parseInt(poId);
+        } catch (NumberFormatException e) {
+            throw new EntryNotFoundException("Invalid ID format. Please provide a numeric ID.");
         }
+
+        PurchaseOrderHeaader po = purchaseOrderHeaderRepo.findById(id)
+                .orElseThrow(() -> new EntryNotFoundException("Can't find any Purchase Order with ID: " + poId));
+
+        List<PurchaseOrderDetailsDto> detailDtoList = new ArrayList<>();
+        if (po.getPO_details() != null) {
+            for (PurchaseOrderDetails d : po.getPO_details()) {
+                detailDtoList.add(new PurchaseOrderDetailsDto(
+                        d.getId(),
+                        d.getPoItem(),
+                        d.getOrderedQuantity(),
+                        d.getPrice(),
+                        d.getTotal(),
+                        null
+                ));
+            }
+        }
+
+        List<PurchaseOrderHeaderResponseDto> poResponseDtos = new ArrayList<>();
+        poResponseDtos.add(
+                new PurchaseOrderHeaderResponseDto(
+                        po.getId(),
+                        po.getPoNumber(),
+                        supplierMapper.toSupplierDto(po.getSupplier()),
+                        po.getPoDate(),
+                        po.getExpectedDate(),
+                        po.getCreatedBy(),
+                        po.getCreatedDate(),
+                        po.getModifyBy(),
+                        po.getModifyDate(),
+                        statusMapper.toStatusDto(po.getStatus()),
+                        detailDtoList
+                )
+        );
+
+        return new PaginatedResponsePurchaseOrderHeaderDto(
+                purchaseOrderHeaderRepo.count(),
+                poResponseDtos
+        );
     }
 
     @Override
+    @Transactional(readOnly = true)
     public PaginatedResponsePurchaseOrderHeaderDto allPOs() throws SQLException {
-        try {
-            // 1. Fetch all PO headers
-            List<PurchaseOrderHeaader> allPOs = purchaseOrderHeaderRepo.findAll();
-            List<PurchaseOrderHeaderResponseDto> poResponseDtoList = new ArrayList<>();
+        List<PurchaseOrderHeaader> allPOs = purchaseOrderHeaderRepo.findAll();
+        List<PurchaseOrderHeaderResponseDto> poResponseDtoList = new ArrayList<>();
 
-            // 2. Iterate and map to DTOs
-            for (PurchaseOrderHeaader p : allPOs) {
-                List<PurchaseOrderDetailsDto> detailDtos = new ArrayList<>();
+        for (PurchaseOrderHeaader p : allPOs) {
+            List<PurchaseOrderDetailsDto> detailDtos = new ArrayList<>();
 
-                // Map details
-                if (p.getPO_details() != null) {
-                    for (PurchaseOrderDetails d : p.getPO_details()) {
-                        detailDtos.add(new PurchaseOrderDetailsDto(
-                                0,
-                                d.getPoItem(),
-                                d.getOrderedQuantity(),
-                                d.getPrice(),
-                                d.getTotal() ,
-                                null
-                        ));
-                    }
+            if (p.getPO_details() != null) {
+                for (PurchaseOrderDetails d : p.getPO_details()) {
+                    detailDtos.add(new PurchaseOrderDetailsDto(
+                            d.getId(),
+                            d.getPoItem(),
+                            d.getOrderedQuantity(),
+                            d.getPrice(),
+                            d.getTotal(),
+                            null
+                    ));
                 }
-
-                // Map Header
-                poResponseDtoList.add(
-                        new PurchaseOrderHeaderResponseDto(
-                                p.getId(),
-                                p.getPoNumber(),
-                                supplierMapper.toSupplierDto(p.getSupplier()),
-                                p.getPoDate(),
-                                p.getExpectedDate(),
-                                p.getCreatedBy(),
-                                p.getCreatedDate(),
-                                p.getModifyBy(),
-                                p.getModifyDate(),
-                                statusMapper.toStatusDto(p.getStatus()),
-                                detailDtos
-                        )
-                );
             }
 
-            return new PaginatedResponsePurchaseOrderHeaderDto(
-                    purchaseOrderHeaderRepo.count(),
-                    poResponseDtoList
+            poResponseDtoList.add(
+                    new PurchaseOrderHeaderResponseDto(
+                            p.getId(),
+                            p.getPoNumber(),
+                            supplierMapper.toSupplierDto(p.getSupplier()),
+                            p.getPoDate(),
+                            p.getExpectedDate(),
+                            p.getCreatedBy(),
+                            p.getCreatedDate(),
+                            p.getModifyBy(),
+                            p.getModifyDate(),
+                            statusMapper.toStatusDto(p.getStatus()),
+                            detailDtos
+                    )
             );
-
-        } catch (Exception e) {
-            throw new EntryNotFoundException("Can't find any Purchase Order data...!");
         }
+
+        return new PaginatedResponsePurchaseOrderHeaderDto(
+                purchaseOrderHeaderRepo.count(),
+                poResponseDtoList
+        );
     }
 
     @Override
+    @Transactional(readOnly = true)
     public PaginatedResponsePurchaseOrderHeaderDto getAllPagedPO(int page, int size) throws SQLException {
-        try {
-            Pageable pageable = PageRequest.of(page, size);
-            Page<PurchaseOrderHeaader> poPage = purchaseOrderHeaderRepo.findAll(pageable);
-            List<PurchaseOrderHeaderResponseDto> poResponseDto = poPage.getContent()
-                    .stream()
-                    .map(p -> {
-                        // Map details using your specific PO fields
-                        List<PurchaseOrderDetailsDto> detailDtos = p.getPO_details().stream()
+        Pageable pageable = PageRequest.of(page, size);
+        Page<PurchaseOrderHeaader> poPage = purchaseOrderHeaderRepo.findAll(pageable);
+        List<PurchaseOrderHeaderResponseDto> poResponseDto = poPage.getContent()
+                .stream()
+                .map(p -> {
+                    List<PurchaseOrderDetailsDto> detailDtos = new ArrayList<>();
+                    if (p.getPO_details() != null) {
+                        detailDtos = p.getPO_details().stream()
                                 .map(d -> new PurchaseOrderDetailsDto(
-                                        0,
+                                        d.getId(),
                                         d.getPoItem(),
                                         d.getOrderedQuantity(),
                                         d.getPrice(),
@@ -281,37 +273,34 @@ public class PurchaseOrderImpl implements PurchaseOrderService {
                                         null
                                 ))
                                 .collect(Collectors.toList());
+                    }
 
-                        // Map Header to DTO
-                        return new PurchaseOrderHeaderResponseDto(
-                                p.getId(),
-                                p.getPoNumber(),
-                                supplierMapper.toSupplierDto(p.getSupplier()),
-                                p.getPoDate(),
-                                p.getExpectedDate(),
-                                p.getCreatedBy(),
-                                p.getCreatedDate(),
-                                p.getModifyBy(),
-                                p.getModifyDate(),
-                                statusMapper.toStatusDto(p.getStatus()),
-                                detailDtos
-                        );
-                    })
-                    .collect(Collectors.toList());
+                    return new PurchaseOrderHeaderResponseDto(
+                            p.getId(),
+                            p.getPoNumber(),
+                            supplierMapper.toSupplierDto(p.getSupplier()),
+                            p.getPoDate(),
+                            p.getExpectedDate(),
+                            p.getCreatedBy(),
+                            p.getCreatedDate(),
+                            p.getModifyBy(),
+                            p.getModifyDate(),
+                            statusMapper.toStatusDto(p.getStatus()),
+                            detailDtos
+                    );
+                })
+                .collect(Collectors.toList());
 
-            return new PaginatedResponsePurchaseOrderHeaderDto(
-                    poPage.getNumberOfElements(),
-                    poResponseDto,
-                    poPage.getTotalPages(),
-                    poPage.getTotalElements(),
-                    poPage.getNumber(),
-                    poPage.getSize(),
-                    poPage.hasNext(),
-                    poPage.hasPrevious()
-            );
-        } catch (Exception e) {
-            throw new EntryNotFoundException("Can't find any Purchase Order data...!");
-        }
+        return new PaginatedResponsePurchaseOrderHeaderDto(
+                poPage.getNumberOfElements(),
+                poResponseDto,
+                poPage.getTotalPages(),
+                poPage.getTotalElements(),
+                poPage.getNumber(),
+                poPage.getSize(),
+                poPage.hasNext(),
+                poPage.hasPrevious()
+        );
     }
 
 
