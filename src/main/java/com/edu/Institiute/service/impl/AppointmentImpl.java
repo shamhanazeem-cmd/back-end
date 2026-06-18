@@ -193,7 +193,9 @@ public class AppointmentImpl implements AppointmentService {
     @Override
     public PaginatedResponseAppointmentDto allAppointment() throws SQLException {
         try {
-            List<Appointment> allAppointmentForProvidedId = appointmentRepo.findAll();
+            List<Appointment> allAppointmentForProvidedId = appointmentRepo.findByStatus(1);
+            System.out.println("DATA: " + allAppointmentForProvidedId);
+
             List<AppointmentResponseDto> appointmentResponseDto = new ArrayList<>();
 
             for (Appointment r : allAppointmentForProvidedId) {
@@ -219,7 +221,7 @@ public class AppointmentImpl implements AppointmentService {
                     appointmentResponseDto
             );
         } catch (Exception e) {
-            throw new EntryNotFoundException("Can't find any data...!");
+           throw new EntryNotFoundException("Can't find any data...!");
         }
 
     }

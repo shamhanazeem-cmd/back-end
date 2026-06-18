@@ -1,5 +1,6 @@
 package com.edu.Institiute.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.*;
 
 import javax.persistence.*;
@@ -19,6 +20,7 @@ public class SupplierBankAccount {
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "supplier_id", nullable = false)
+    @JsonIgnore
     private Supplier supplier;
 
     @Column(name = "bank_name", length = 150)

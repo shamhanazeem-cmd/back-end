@@ -180,6 +180,21 @@ public class RequestRegistryDto {
      private String swiftCode;
      private Boolean isDefault;
 
+     //--GRN header--
+     private String grnNumber;
+     private Integer purchaseOrder;
+     private Integer grn_Supplier;
+     private Date receivedDate;
+     private List<GRNDetailsDto> grn_details;
+
+
+     //--GRN Details--
+     private String grn_Item;
+     private Integer orderedQty;
+     private Integer receivedQty;
+     private Integer damagedQty;
+     private Integer acceptedQty;
+     private String grnHeaderId;
 
 
 }
