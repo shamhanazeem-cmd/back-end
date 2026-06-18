@@ -16,5 +16,6 @@ public interface PurchaseOrderMapper {
     // Detail Mapping
     PurchaseOrderDetails dtoToPODetailEntity(PurchaseOrderDetailsDto dto);
     PurchaseOrderDetailsDto poDetailToDto(PurchaseOrderDetails entity);
+
 }
 

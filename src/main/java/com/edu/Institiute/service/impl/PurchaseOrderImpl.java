@@ -57,7 +57,6 @@ public class PurchaseOrderImpl implements PurchaseOrderService {
    // private PurchaseOrderMapper purchaseOrderMapper;
 
     @Override
-    @Transactional(noRollbackFor = Exception.class)
     public CommonResponseDto savePO(RequestRegistryDto data) {
         try {
             String poNumber = "PO-" + generator.generateFourNumNumbers();
@@ -69,13 +68,13 @@ public class PurchaseOrderImpl implements PurchaseOrderService {
 
             Optional<Supplier> supplier = supplierRepo.findById(data.getSupplier());
             if (supplier.isEmpty()) {
-                return new CommonResponseDto(400, "Invalid Supplier ID", null, null);
+                return new CommonResponseDto(400, "Invalid Supplier ID: " + data.getSupplier(), null, null);
             }
 
             // Mapping Header
             PurchaseOrderHeaader poHeader = new PurchaseOrderHeaader();
             poHeader.setPoNumber(poNumber);
-            poHeader.setSupplier(supplier.get());
+            poHeader.setSupplier(supplier.get());;
             poHeader.setPoDate(data.getPoDate());
             poHeader.setExpectedDate(data.getExpectedDate());
             poHeader.setCreatedBy(createdBy);
@@ -91,7 +90,6 @@ public class PurchaseOrderImpl implements PurchaseOrderService {
                     detail.setPoItem(d.getPoItem());
                     detail.setOrderedQuantity(d.getOrderedQuantity());
                     detail.setPrice(d.getPrice());
-                    // Business Logic: Calculation
                     detail.setTotal(d.getOrderedQuantity() * d.getPrice());
                     detail.setPO_Header(savedHeader);
                     purchaseOrderDetailsRepo.save(detail);
@@ -234,7 +232,7 @@ public class PurchaseOrderImpl implements PurchaseOrderService {
                     }
                 }
 
-                // Map Header
+
                 poResponseDtoList.add(
                         new PurchaseOrderHeaderResponseDto(
                                 p.getId(),
@@ -270,7 +268,8 @@ public class PurchaseOrderImpl implements PurchaseOrderService {
             List<PurchaseOrderHeaderResponseDto> poResponseDto = poPage.getContent()
                     .stream()
                     .map(p -> {
-                        // Map details using your specific PO fields
+
+
                         List<PurchaseOrderDetailsDto> detailDtos = p.getPO_details().stream()
                                 .map(d -> new PurchaseOrderDetailsDto(
                                         0,
