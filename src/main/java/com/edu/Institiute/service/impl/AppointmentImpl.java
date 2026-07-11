@@ -16,6 +16,7 @@ import com.edu.Institiute.repo.*;
 import com.edu.Institiute.service.AppointmentService;
 import com.edu.Institiute.utill.Generator;
 import com.edu.Institiute.utill.mapper.*;
+import com.edu.Institiute.utill.other.EmailSender;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -70,6 +71,9 @@ public class AppointmentImpl implements AppointmentService {
     @Autowired
     private AppointmentRepo appointmentRepo;
 
+    @Autowired
+    private EmailSender emailSender;
+
 
     @Override
     public CommonResponseDto saveAppointment(RequestRegistryDto dto) {
@@ -118,8 +122,27 @@ public class AppointmentImpl implements AppointmentService {
             }
             appointmentRepo.save(appointmentMapper.dtoToAppointmentEntity(appointmentDto));
 
+            // Send Email Confirmation
+            try {
+                String patientEmail = "chathurangabdr@gmail.com";
+                String subject = "Appointment Confirmation";
+                String body = "Dear " + patient.get().getFullName() + ",\n\n" +
+                        "Your appointment has been created successfully!\n\n" +
+                        "Appointment ID: " + appointmentId + "\n" +
+                        "Serial ID: " + dto.getAppointmentSerialID() + "\n" +
+                        "Date: " + dto.getAppointmentDate() + "\n" +
+                        "Time: " + dto.getAppointmentTime() + "\n" +
+                        "Doctor: " + doctor.get().getDoctorName() + "\n\n" +
+                        "Thank you for choosing us!\n\n" +
+                        "Best Regards,\n" +
+                        "Clinic Team";
 
-            return new CommonResponseDto(201, "Appointment saved!", appointmentDto.getAppointmentDate(), new ArrayList<>());
+                emailSender.sendSimpleEmail(patientEmail, subject, body);
+            } catch (Exception e) {
+                System.err.println("Email error: " + e.getMessage());
+            }
+
+            return new CommonResponseDto(201, "Appointment saved! Confirmation sent via Email.", appointmentDto.getAppointmentDate(), new ArrayList<>());
         }catch (Exception e){
             throw new EntryNotFoundException("Can't Save because of this Error -->  " + e);
         }
