@@ -1,6 +1,5 @@
 package com.edu.Institiute.entity;
 
-
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
